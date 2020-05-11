@@ -13,7 +13,7 @@ from models.retinanet import retinenet as model
 from datasets.retinanet.dataloader import CocoDataset, CSVDataset, collater, Resizer, AspectRatioBasedSampler, Augmenter, \
     Normalizer
 from eval_infer import retinanet_eval
-
+from config.retinanet import config
 
 assert torch.__version__.split('.')[0] == '1'
 
@@ -22,32 +22,32 @@ print('CUDA available: {}'.format(torch.cuda.is_available()))
 
 def main():
     # Create the data loaders
-    if dataset == 'coco':
+    if config.dataset == 'coco':
 
-        if coco_path is None:
+        if config.coco_path is None:
             raise ValueError('Must provide --coco_path when training on COCO,')
 
-        dataset_train = CocoDataset(coco_path, set_name='train2017',
+        dataset_train = CocoDataset(config.coco_path, set_name='train2017',
                                     transform=transforms.Compose([Normalizer(), Augmenter(), Resizer()]))
-        dataset_val = CocoDataset(coco_path, set_name='val2017',
+        dataset_val = CocoDataset(config.coco_path, set_name='val2017',
                                   transform=transforms.Compose([Normalizer(), Resizer()]))
 
-    elif dataset == 'csv':
+    elif config.dataset == 'csv':
 
-        if csv_train is None:
+        if config.csv_train is None:
             raise ValueError('Must provide --csv_train when training on COCO,')
 
-        if csv_classes is None:
+        if config.csv_classes is None:
             raise ValueError('Must provide --csv_classes when training on COCO,')
 
-        dataset_train = CSVDataset(train_file=csv_train, class_list=csv_classes,
+        dataset_train = CSVDataset(train_file=config.csv_train, class_list=config.csv_classes,
                                    transform=transforms.Compose([Normalizer(), Augmenter(), Resizer()]))
 
-        if csv_val is None:
+        if config.csv_val is None:
             dataset_val = None
             print('No validation annotations provided.')
         else:
-            dataset_val = CSVDataset(train_file=csv_val, class_list=csv_classes,
+            dataset_val = CSVDataset(train_file=config.csv_val, class_list=config.csv_classes,
                                      transform=transforms.Compose([Normalizer(), Resizer()]))
 
     else:
@@ -61,15 +61,15 @@ def main():
         dataloader_val = DataLoader(dataset_val, num_workers=3, collate_fn=collater, batch_sampler=sampler_val)
 
     # Create the model
-    if depth == 18:
+    if config.depth == 18:
         retinanet = model.resnet18(num_classes=dataset_train.num_classes(), pretrained=True)
-    elif depth == 34:
+    elif config.depth == 34:
         retinanet = model.resnet34(num_classes=dataset_train.num_classes(), pretrained=True)
-    elif depth == 50:
+    elif config.depth == 50:
         retinanet = model.resnet50(num_classes=dataset_train.num_classes(), pretrained=True)
-    elif depth == 101:
+    elif config.depth == 101:
         retinanet = model.resnet101(num_classes=dataset_train.num_classes(), pretrained=True)
-    elif depth == 152:
+    elif config.depth == 152:
         retinanet = model.resnet152(num_classes=dataset_train.num_classes(), pretrained=True)
     else:
         raise ValueError('Unsupported model depth, must be one of 18, 34, 50, 101, 152')
@@ -98,7 +98,7 @@ def main():
 
     print('Num training images: {}'.format(len(dataset_train)))
 
-    for epoch_num in range(epochs):
+    for epoch_num in range(config.epochs):
 
         retinanet.train()
         retinanet.module.freeze_bn()
@@ -142,13 +142,13 @@ def main():
                 print(e)
                 continue
 
-        if dataset == 'coco':
+        if config.dataset == 'coco':
 
             print('Evaluating dataset')
 
             retinanet_eval.evaluate_coco(dataset_val, retinanet)
 
-        elif dataset == 'csv' and csv_val is not None:
+        elif config.dataset == 'csv' and config.csv_val is not None:
 
             print('Evaluating dataset')
 
@@ -156,7 +156,7 @@ def main():
 
         scheduler.step(np.mean(epoch_loss))
 
-        torch.save(retinanet.module, '{}_retinanet_{}.pt'.format(dataset, epoch_num))
+        torch.save(retinanet.module, '{}_retinanet_{}.pt'.format(config.dataset, epoch_num))
 
     retinanet.eval()
 
