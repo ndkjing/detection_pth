@@ -43,11 +43,14 @@ val_interval = 1  # , help='Number of epoches between valing phases')
 save_interval = 500  # , help='Number of steps between saving')
 es_min_delta = 0.0  ##, help='Early stopping\'s parameter: minimum change loss to qualify as an improvement')
 es_patience = 0  # help='Early stopping\'s parameter: number of epochs with no improvement after which training will be stopped. Set to 0 to disable this technique.')
-data_path = './datasets/'  # , help='the root folder of dataset')
-log_path_ = './logs/'
+data_path = './datasets/'
 load_weights = None
-saved_path_ = 'logs/'
 debug = False  # , help='whether visualize the predicted boxes of trainging,the output images will be in test/')
+
+saved_path = os.path.join(efficient_config.save_weight_path , efficient_config.project_name)
+log_path = os.path.join(efficient_config.save_weight_path , efficient_config.project_name)
+os.makedirs(log_path, exist_ok=True)
+os.makedirs(saved_path, exist_ok=True)
 
 
 class ModelWithLoss(nn.Module):
@@ -68,9 +71,8 @@ class ModelWithLoss(nn.Module):
 
 
 def train():
-    params = efficient_config
 
-    if params.num_gpus == 0:
+    if efficient_config.num_gpus == 0:
         os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
 
     if torch.cuda.is_available():
@@ -78,10 +80,7 @@ def train():
     else:
         torch.manual_seed(42)
 
-    saved_path = saved_path_ + f'/{params.project_name}/'
-    log_path = log_path_ + f'/{params.project_name}/tensorboard/'
-    os.makedirs(log_path, exist_ok=True)
-    os.makedirs(saved_path, exist_ok=True)
+
 
     training_params = {'batch_size': batch_size,
                        'shuffle': True,
@@ -96,19 +95,19 @@ def train():
                   'num_workers': num_workers}
 
     input_sizes = [512, 640, 768, 896, 1024, 1280, 1280, 1536]
-    training_set = CocoDataset(root_dir=os.path.join(data_path, params.project_name), set=params.train_set,
-                        transform=transforms.Compose([Normalizer(mean=params.mean, std=params.std),
+    training_set = CocoDataset(root_dir=os.path.join(data_path, efficient_config.project_name), set=efficient_config.train_set,
+                        transform=transforms.Compose([Normalizer(mean=efficient_config.mean, std=efficient_config.std),
                                                       Augmenter(),
                                                       Resizer(input_sizes[compound_coef])]))
     training_generator = DataLoader(training_set, **training_params)
 
-    val_set = CocoDataset(root_dir=os.path.join(data_path, params.project_name), set=params.val_set,
-                   transform=transforms.Compose([Normalizer(mean=params.mean, std=params.std),
+    val_set = CocoDataset(root_dir=os.path.join(data_path, efficient_config.project_name), set=efficient_config.val_set,
+                   transform=transforms.Compose([Normalizer(mean=efficient_config.mean, std=efficient_config.std),
                                                  Resizer(input_sizes[compound_coef])]))
     val_generator = DataLoader(val_set, **val_params)
 
-    model = EfficientDetBackbone(num_classes=len(params.obj_list), compound_coef=compound_coef,
-                                 ratios=eval(params.anchors_ratios), scales=eval(params.anchors_scales))
+    model = EfficientDetBackbone(num_classes=len(efficient_config.obj_list), compound_coef=compound_coef,
+                                 ratios=eval(efficient_config.anchors_ratios), scales=eval(efficient_config.anchors_scales))
 
     # load last weights
     if load_weights is not None:
@@ -153,7 +152,7 @@ def train():
     # apply sync_bn can solve it,
     # by packing all mini-batch across all gpus as one batch and normalize, then send it back to all gpus.
     # but it would also slow down the training by a little bit.
-    if params.num_gpus > 1 and batch_size // params.num_gpus < 4:
+    if efficient_config.num_gpus > 1 and batch_size // efficient_config.num_gpus < 4:
         model.apply(replace_w_sync_bn)
         use_sync_bn = True
     else:
@@ -164,10 +163,10 @@ def train():
     # warp the model with loss function, to reduce the memory usage on gpu0 and speedup
     model = ModelWithLoss(model, debug=debug)
 
-    if params.num_gpus > 0:
+    if efficient_config.num_gpus > 0:
         model = model.cuda()
-        if params.num_gpus > 1:
-            model = CustomDataParallel(model, params.num_gpus)
+        if efficient_config.num_gpus > 1:
+            model = CustomDataParallel(model, efficient_config.num_gpus)
             if use_sync_bn:
                 patch_replication_callback(model)
 
@@ -202,14 +201,14 @@ def train():
                     imgs = data['img']
                     annot = data['annot']
 
-                    if params.num_gpus == 1:
+                    if efficient_config.num_gpus == 1:
                         # if only one gpu, just send it to cuda:0
                         # elif multiple gpus, send it to multiple gpus in CustomDataParallel, not here
                         imgs = imgs.cuda()
                         annot = annot.cuda()
 
                     optimizer.zero_grad()
-                    cls_loss, reg_loss = model(imgs, annot, obj_list=params.obj_list)
+                    cls_loss, reg_loss = model(imgs, annot, obj_list=efficient_config.obj_list)
                     cls_loss = cls_loss.mean()
                     reg_loss = reg_loss.mean()
 
@@ -256,11 +255,11 @@ def train():
                         imgs = data['img']
                         annot = data['annot']
 
-                        if params.num_gpus == 1:
+                        if efficient_config.num_gpus == 1:
                             imgs = imgs.cuda()
                             annot = annot.cuda()
 
-                        cls_loss, reg_loss = model(imgs, annot, obj_list=params.obj_list)
+                        cls_loss, reg_loss = model(imgs, annot, obj_list=efficient_config.obj_list)
                         cls_loss = cls_loss.mean()
                         reg_loss = reg_loss.mean()
 
@@ -302,9 +301,9 @@ def train():
 
 def save_checkpoint(model, name):
     if isinstance(model, CustomDataParallel):
-        torch.save(model.module.model.state_dict(), os.path.join(saved_path_, name))
+        torch.save(model.module.model.state_dict(), os.path.join(saved_path, name))
     else:
-        torch.save(model.model.state_dict(), os.path.join(saved_path_, name))
+        torch.save(model.model.state_dict(), os.path.join(saved_path, name))
 
 
 if __name__ == '__main__':
