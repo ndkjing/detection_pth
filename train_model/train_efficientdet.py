@@ -20,7 +20,7 @@ from models.efficientdet.efficient import EfficientDetBackbone
 from layers.efficientdet_loss import FocalLoss
 from utils.sync_batchnorm import patch_replication_callback
 from utils.efficientdet.custom_utils import replace_w_sync_bn, CustomDataParallel, get_last_weights, init_weights
-
+from config.efficient import efficient_config
 
 class Params:
     def __init__(self, project_file):
@@ -46,9 +46,9 @@ save_interval = 500  # , help='Number of steps between saving')
 es_min_delta = 0.0  ##, help='Early stopping\'s parameter: minimum change loss to qualify as an improvement')
 es_patience = 0  # help='Early stopping\'s parameter: number of epochs with no improvement after which training will be stopped. Set to 0 to disable this technique.')
 data_path = './datasets/'  # , help='the root folder of dataset')
-log_path = './logs/'
+log_path_ = './logs/'
 load_weights = None
-saved_path = 'logs/'
+saved_path_ = 'logs/'
 debug = False  # , help='whether visualize the predicted boxes of trainging,the output images will be in test/')
 
 
@@ -70,7 +70,7 @@ class ModelWithLoss(nn.Module):
 
 
 def train():
-    params = Params(f'projects/{project}.yml')
+    params = efficient_config
 
     if params.num_gpus == 0:
         os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
@@ -80,8 +80,8 @@ def train():
     else:
         torch.manual_seed(42)
 
-    saved_path = saved_path + f'/{params.project_name}/'
-    log_path = log_path + f'/{params.project_name}/tensorboard/'
+    saved_path = saved_path_ + f'/{params.project_name}/'
+    log_path = log_path_ + f'/{params.project_name}/tensorboard/'
     os.makedirs(log_path, exist_ok=True)
     os.makedirs(saved_path, exist_ok=True)
 
@@ -98,13 +98,13 @@ def train():
                   'num_workers': num_workers}
 
     input_sizes = [512, 640, 768, 896, 1024, 1280, 1280, 1536]
-    training_set = coco(root_dir=os.path.join(data_path, params.project_name), set=params.train_set,
+    training_set = CocoDataset(root_dir=os.path.join(data_path, params.project_name), set=params.train_set,
                         transform=transforms.Compose([Normalizer(mean=params.mean, std=params.std),
                                                       Augmenter(),
                                                       Resizer(input_sizes[compound_coef])]))
     training_generator = DataLoader(training_set, **training_params)
 
-    val_set = coco(root_dir=os.path.join(data_path, params.project_name), set=params.val_set,
+    val_set = CocoDataset(root_dir=os.path.join(data_path, params.project_name), set=params.val_set,
                    transform=transforms.Compose([Normalizer(mean=params.mean, std=params.std),
                                                  Resizer(input_sizes[compound_coef])]))
     val_generator = DataLoader(val_set, **val_params)
@@ -304,9 +304,9 @@ def train():
 
 def save_checkpoint(model, name):
     if isinstance(model, CustomDataParallel):
-        torch.save(model.module.model.state_dict(), os.path.join(saved_path, name))
+        torch.save(model.module.model.state_dict(), os.path.join(saved_path_, name))
     else:
-        torch.save(model.model.state_dict(), os.path.join(saved_path, name))
+        torch.save(model.model.state_dict(), os.path.join(saved_path_, name))
 
 
 if __name__ == '__main__':
