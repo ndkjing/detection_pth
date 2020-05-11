@@ -3,6 +3,19 @@ train_set="train2017"
 val_set= "val2017"
 num_gpus= 1
 
+# 预训练权重路径
+pre_train_weight_path = {0:"/Data/jing/weights/pth/efficientdet/pre_train/efficientdet-d0.pth",
+            1:"/Data/jing/weights/pth/efficientdet/pre_train/efficientdet-d1.pth",
+            2:"/Data/jing/weights/pth/efficientdet/pre_train/efficientdet-d2.pth",
+            3:"/Data/jing/weights/pth/efficientdet/pre_train/efficientdet-d3.pth",
+            4:"/Data/jing/weights/pth/efficientdet/pre_train/efficientdet-d4.pth",
+            5:"/Data/jing/weights/pth/efficientdet/pre_train/efficientdet-d5.pth",
+            6:"/Data/jing/weights/pth/efficientdet/pre_train/efficientdet-d6.pth",
+            7:"/Data/jing/weights/pth/efficientdet/pre_train/efficientdet-d7.pth"
+        }
+
+save_weight_path = "/Data/jing/weights/pth/efficientdet"
+
 # mean and std in RGB order, actually this part should remain unchanged as long as your dataset is similar to coco.
 mean= [0.485, 0.456, 0.406]
 std=[0.229, 0.224, 0.225]
