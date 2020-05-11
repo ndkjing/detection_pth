@@ -2,18 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6b2c98a0-4ae3-494b-b9d7-f1e3e463199f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/config/yolo/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/yolo/coco.names" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/yolo/config.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/yolo/voc.names" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/yolo/yolov4.cfg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eval_infer/yolov4_infer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/yolo/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/yolo/yolov4.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/yolo/region_loss.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/yolo/yolo_layer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/train_model/train_retinanet.py" beforeDir="false" afterPath="$PROJECT_DIR$/train_model/train_retinanet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/yolo/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config/yolo/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eval_infer/yolov4_infer.py" beforeDir="false" afterPath="$PROJECT_DIR$/eval_infer/yolov4_infer.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -22,6 +13,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/pth$yolov4_infer.coverage" NAME="yolov4_infer Coverage Results" MODIFIED="1589189564778" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/eval_infer" />
     <SUITE FILE_PATH="coverage/pth$train_ssd.coverage" NAME="train_ssd Coverage Results" MODIFIED="1589179676363" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/train_model" />
     <SUITE FILE_PATH="coverage/pth$efficientdet_infer.coverage" NAME="efficientdet_infer Coverage Results" MODIFIED="1589182773797" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/eval_infer" />
     <SUITE FILE_PATH="coverage/pth$ssd_infer.coverage" NAME="ssd_infer Coverage Results" MODIFIED="1589181886203" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/eval_infer" />
@@ -30,34 +22,13 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/eval_infer/yolov4_infer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="154">
-              <caret line="7" selection-start-line="7" selection-end-line="7" />
+            <state relative-caret-position="22">
+              <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
               <folding>
-                <element signature="e#178#203#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/yolo/yolov4.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-880">
-              <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/utils/yolo/yolo_layer.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="66">
-              <caret line="3" selection-start-line="3" selection-end-line="3" />
-              <folding>
-                <element signature="e#0#21#0" expanded="true" />
+                <element signature="e#178#208#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -67,16 +38,28 @@
         <entry file="file://$PROJECT_DIR$/config/yolo/config.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="22">
-              <caret line="1" column="27" lean-forward="true" selection-start-line="1" selection-start-column="27" selection-end-line="1" selection-end-column="27" />
+              <caret line="1" column="23" lean-forward="true" selection-start-line="1" selection-start-column="23" selection-end-line="1" selection-end-column="23" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/models/yolo/yolov4.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="253">
+              <caret line="618" column="24" selection-start-line="618" selection-start-column="24" selection-end-line="618" selection-end-column="24" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/utils/yolo/utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="154">
-              <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
+            <state relative-caret-position="1727">
+              <caret line="396" lean-forward="true" selection-start-line="396" selection-end-line="396" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
                 <element signature="e#261#291#0" />
@@ -88,13 +71,9 @@
                 <element signature="e#1452#1763#0" />
                 <element signature="e#1782#2189#0" />
                 <element signature="e#2732#3094#0" />
-                <element signature="e#3435#7224#0" />
                 <element signature="e#7347#10758#0" />
                 <element signature="e#10842#12358#0" />
-                <element signature="e#12426#13782#0" />
                 <element signature="e#13816#14093#0" />
-                <element signature="e#14133#14325#0" />
-                <element signature="e#14396#16812#0" />
               </folding>
             </state>
           </provider>
@@ -132,6 +111,7 @@
       <find>RetinaNet</find>
       <find>num_classes</find>
       <find>class_list</find>
+      <find>conf_thresh</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -173,7 +153,6 @@
         <option value="$PROJECT_DIR$/datasets/ssd/coco.py" />
         <option value="$PROJECT_DIR$/train_model/train_retinanet.py" />
         <option value="$PROJECT_DIR$/utils/yolov4/utils.py" />
-        <option value="$PROJECT_DIR$/eval_infer/yolov4_infer.py" />
         <option value="$PROJECT_DIR$/config/yolo/yolov4.cfg" />
         <option value="$PROJECT_DIR$/models/yolo.py" />
         <option value="$PROJECT_DIR$/config/yolo/coco.names" />
@@ -182,6 +161,7 @@
         <option value="$PROJECT_DIR$/models/yolo/YoloLayer.py" />
         <option value="$PROJECT_DIR$/utils/yolo/region_loss.py" />
         <option value="$PROJECT_DIR$/config/yolo/config.py" />
+        <option value="$PROJECT_DIR$/eval_infer/yolov4_infer.py" />
       </list>
     </option>
   </component>
@@ -224,6 +204,11 @@
             <path>
               <item name="pth" type="b2602c69:ProjectViewProjectNode" />
               <item name="pth" type="462c0819:PsiDirectoryNode" />
+              <item name="images_test" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pth" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pth" type="462c0819:PsiDirectoryNode" />
               <item name="layers" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -252,6 +237,12 @@
               <item name="pth" type="b2602c69:ProjectViewProjectNode" />
               <item name="pth" type="462c0819:PsiDirectoryNode" />
               <item name="utils" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pth" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pth" type="462c0819:PsiDirectoryNode" />
+              <item name="utils" type="462c0819:PsiDirectoryNode" />
+              <item name="yolo" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -285,7 +276,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.retinanet_infer">
+  <component name="RunManager" selected="Python.yolov4_infer">
     <configuration name="efficientdet_infer" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="pth" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -352,28 +343,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="train_efficientdet" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="pth" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/train_model" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/train_model/train_efficientdet.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="train_ssd" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="pth" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -396,13 +365,35 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="yolov4_infer" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="pth" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/eval_infer" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/eval_infer/yolov4_infer.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.yolov4_infer" />
         <item itemvalue="Python.retinanet_infer" />
         <item itemvalue="Python.efficientdet_infer" />
         <item itemvalue="Python.ssd_infer" />
         <item itemvalue="Python.train_ssd" />
-        <item itemvalue="Python.train_efficientdet" />
       </list>
     </recent_temporary>
   </component>
@@ -416,7 +407,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1589162580288</updated>
-      <workItem from="1589162582000" duration="20266000" />
+      <workItem from="1589162582000" duration="22380000" />
     </task>
     <task id="LOCAL-00001" summary="update file">
       <created>1589164204241</created>
@@ -474,18 +465,32 @@
       <option name="project" value="LOCAL" />
       <updated>1589185610847</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="update file">
+      <created>1589188489378</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1589188489378</updated>
+    </task>
+    <task id="LOCAL-00010" summary="update file">
+      <created>1589188521180</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1589188521180</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="20266000" />
+    <option name="totallyTimeSpent" value="22380000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1234" y="0" width="1317" height="1047" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Favorites" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24980111" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24980111" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" />
@@ -498,8 +503,8 @@
       <window_info anchor="bottom" id="File Transfer" weight="0.30668128" />
       <window_info anchor="bottom" id="Anonymous Apex" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" visible="true" weight="0.32968238" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32968238" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32968238" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32968238" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -734,16 +739,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/utils/retinanet/utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="13" selection-start-line="13" selection-end-line="13" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/layers/retinanet/anchors.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="66">
@@ -847,16 +842,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/eval_infer/retinanet_infer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1279">
-          <caret line="106" lean-forward="true" selection-start-line="106" selection-end-line="106" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/train_model/train_retinanet.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="286">
@@ -877,16 +862,6 @@
     <entry file="file://$PROJECT_DIR$/models/yolo.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/eval_infer/yolov4_infer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="7" selection-start-line="7" selection-end-line="7" />
-          <folding>
-            <element signature="e#178#203#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/config/yolo/coco.names">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="124">
@@ -901,16 +876,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/utils/yolo/yolo_layer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="66">
-          <caret line="3" selection-start-line="3" selection-end-line="3" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/utils/yolo/region_loss.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="176">
@@ -921,24 +886,57 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/utils/retinanet/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="9" lean-forward="true" selection-end-line="143" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utils/yolo/yolo_layer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="66">
+          <caret line="3" selection-start-line="3" selection-end-line="3" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/eval_infer/retinanet_infer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="22">
+          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/config/yolo/config.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="22">
-          <caret line="1" column="27" lean-forward="true" selection-start-line="1" selection-start-column="27" selection-end-line="1" selection-end-column="27" />
+          <caret line="1" column="23" lean-forward="true" selection-start-line="1" selection-start-column="23" selection-end-line="1" selection-end-column="23" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/models/yolo/yolov4.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-880">
-          <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
+        <state relative-caret-position="253">
+          <caret line="618" column="24" selection-start-line="618" selection-start-column="24" selection-end-line="618" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/utils/yolo/utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
+        <state relative-caret-position="1727">
+          <caret line="396" lean-forward="true" selection-start-line="396" selection-end-line="396" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
             <element signature="e#261#291#0" />
@@ -950,13 +948,19 @@
             <element signature="e#1452#1763#0" />
             <element signature="e#1782#2189#0" />
             <element signature="e#2732#3094#0" />
-            <element signature="e#3435#7224#0" />
             <element signature="e#7347#10758#0" />
             <element signature="e#10842#12358#0" />
-            <element signature="e#12426#13782#0" />
             <element signature="e#13816#14093#0" />
-            <element signature="e#14133#14325#0" />
-            <element signature="e#14396#16812#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/eval_infer/yolov4_infer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="22">
+          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
+          <folding>
+            <element signature="e#178#208#0" expanded="true" />
           </folding>
         </state>
       </provider>

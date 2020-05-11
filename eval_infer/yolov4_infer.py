@@ -1,11 +1,12 @@
 # refer https://github.com/Tianxiaomo/pytorch-YOLOv4/blob/master/demo.py
+
 # import sys
 # import time
 # from PIL import Image, ImageDraw
 # from models.tiny_yolo import TinyYoloNet
-from utils.retinanet.utils import *
-from tool.darknet2pytorch import Darknet
-
+from utils.yolo.utils import *
+from models.yolo.yolov4 import Darknet
+from config.yolo import config
 
 def detect(cfgfile, weightfile, imgfile):
     m = Darknet(cfgfile)
@@ -16,11 +17,11 @@ def detect(cfgfile, weightfile, imgfile):
 
     num_classes = 80
     if num_classes == 20:
-        namesfile = 'data/voc.names'
+        namesfile = '../config/yolo/voc.names'
     elif num_classes == 80:
-        namesfile = 'data/coco.names'
+        namesfile = '../config/yolo/coco.names'
     else:
-        namesfile = 'data/names'
+        namesfile = '../config/yolo/names'
 
     use_cuda = 0
     if use_cuda:
@@ -31,13 +32,13 @@ def detect(cfgfile, weightfile, imgfile):
 
     for i in range(2):
         start = time.time()
-        boxes = do_detect(m, sized, 0.5, 0.4, use_cuda)
+        boxes = do_detect(m, sized, 0.5, 0.2, use_cuda)
         finish = time.time()
         if i == 1:
             print('%s: Predicted in %f seconds.' % (imgfile, (finish - start)))
 
     class_names = load_class_names(namesfile)
-    plot_boxes(img, boxes, 'predictions.jpg', class_names)
+    plot_boxes(img, boxes, 'yolov4.jpg', class_names)
 
 
 def detect_imges(cfgfile, weightfile, imgfile_list=['data/dog.jpg', 'data/giraffe.jpg']):
@@ -149,15 +150,10 @@ def detect_skimage(cfgfile, weightfile, imgfile):
 
 
 if __name__ == '__main__':
-    if len(sys.argv) == 4:
-        cfgfile = sys.argv[1]
-        weightfile = sys.argv[2]
-        imgfile = sys.argv[3]
-        detect(cfgfile, weightfile,imgfile)
-        # detect_imges(cfgfile, weightfile)
-        # detect_cv2(cfgfile, weightfile, imgfile)
-        # detect_skimage(cfgfile, weightfile, imgfile)
-    else:
-        print('Usage: ')
-        print('  python demo.py cfgfile weightfile imgfile')
-        # detect('cfg/tiny-yolo-voc.cfg', 'tiny-yolo-voc.weights', 'data/person.jpg', version=1)
+    cfgfile = config.yolov4_cfg_path
+    weightfile = config.pre_train_weight_path
+    imgfile =  '../images_test/img.png'
+    detect(cfgfile, weightfile,imgfile)
+    # detect_imges(cfgfile, weightfile)
+    # detect_cv2(cfgfile, weightfile, imgfile)
+    # detect_skimage(cfgfile, weightfile, imgfile)
