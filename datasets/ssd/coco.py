@@ -1,4 +1,4 @@
-from config.config import HOME
+from config.ssd.config import HOME
 import os.path as osp
 import sys
 import torch

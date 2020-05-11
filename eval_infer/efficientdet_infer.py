@@ -16,7 +16,8 @@ import numpy as np
 from utils.efficientdet.anchor_utils import BBoxTransform, ClipBoxes
 from utils.efficientdet.custom_utils import preprocess, invert_affine, postprocess, STANDARD_COLORS, standard_to_bgr, get_index_label, plot_one_box
 
-compound_coef = 0
+# 设置使用 d-x
+compound_coef = 0  # 0 1 2 3 4 5 6 7
 force_input_size = None  # set None to use default size
 img_path = '../images_test/img.png'
 weight_root = '/Data/jing/weights/pth/weights/efficientdet'
@@ -96,7 +97,8 @@ def display(preds, imgs, imshow=True, imwrite=False):
             cv2.waitKey(0)
 
         if imwrite:
-            cv2.imwrite(f'test/img_inferred_d{compound_coef}_this_repo_{i}.jpg', imgs[i])
+            print('write image')
+            cv2.imwrite(f'img_inferred_d{compound_coef}_this_repo_{i}.jpg', imgs[i])
 
 
 out = invert_affine(framed_metas, out)

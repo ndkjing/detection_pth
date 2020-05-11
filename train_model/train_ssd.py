@@ -1,4 +1,5 @@
 # refer:   https://github.com/qfgaohao/pytorch-ssd
+
 import os, sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath("__file__"))))
 import os
@@ -17,7 +18,7 @@ from models.ssd.mobilenetv1_ssd_lite import create_mobilenetv1_ssd_lite
 from models.ssd.mobilenet_v2_ssd_lite import create_mobilenetv2_ssd_lite
 from models.ssd.squeezenet_ssd_lite import create_squeezenet_ssd_lite
 from models.ssd.mobilenet_v3_ssd_lite import create_mobilenetv3_ssd_lite
-from config.ssd import vgg_ssd_config, squeezenet_ssd_config, mobilenetv1_ssd_config
+from config.ssd import vgg_ssd_config, squeezenet_ssd_config, mobilenetv1_ssd_config, config
 from augment.data_preprocessing import TrainAugmentation, TestTransform
 
 from datasets.ssd.voc_dataset import VOCDataset
@@ -65,8 +66,7 @@ num_workers = 4  # type=int,help='Number of workers used in dataloading')
 validation_epochs = 5  # type=int, help='the number epochs')
 debug_steps = 100  # type=int,help='Set the debug log output frequency.')
 use_cuda = True  # type=str2bool,help='Use CUDA to train_model model')
-from config import config
-checkpoint_folder = os.path.join(config.HOME,'weights')  # help='Directory for saving checkpoint models')
+checkpoint_folder = os.path.join(config.HOME, 'weights')  # help='Directory for saving checkpoint models')
 
 device_id = 3
 DEVICE = torch.device("cuda:%d" % device_id if torch.cuda.is_available() and use_cuda else "cpu")

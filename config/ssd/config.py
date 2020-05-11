@@ -2,9 +2,7 @@
 import os.path
 
 # gets home dir cross platform home目录
-# HOME = os.path.expanduser("~")
 HOME = os.path.dirname(os.path.dirname(os.path.abspath('__file__')))
-# HOME = os.path.dirname(os.path.dirname(os.path.abspath('__file__')))
 
 # for making bounding boxes pretty
 COLORS = ((255, 0, 0, 128), (0, 255, 0, 128), (0, 0, 255, 128),
