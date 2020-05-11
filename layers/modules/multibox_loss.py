@@ -3,7 +3,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.autograd import Variable
-from datasets import coco as cfg
+from datasets.ssd import coco as cfg
 from ..box_utils import match, log_sum_exp
 
 

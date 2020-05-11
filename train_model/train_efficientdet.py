@@ -18,7 +18,7 @@ from models.efficientdet.efficient import EfficientDetBackbone
 from layers.efficientdet_loss import FocalLoss
 from utils.sync_batchnorm import patch_replication_callback
 from utils.efficientdet.custom_utils import replace_w_sync_bn, CustomDataParallel, get_last_weights, init_weights
-from config.efficient import efficient_config
+from config.efficient import config
 
 class Params:
     def __init__(self, project_file):
@@ -47,8 +47,8 @@ data_path = './datasets/'
 load_weights = None
 debug = False  # , help='whether visualize the predicted boxes of trainging,the output images will be in test/')
 
-saved_path = os.path.join(efficient_config.save_weight_path , efficient_config.project_name)
-log_path = os.path.join(efficient_config.save_weight_path , efficient_config.project_name)
+saved_path = os.path.join(config.save_weight_path, config.project_name)
+log_path = os.path.join(config.save_weight_path, config.project_name)
 os.makedirs(log_path, exist_ok=True)
 os.makedirs(saved_path, exist_ok=True)
 
@@ -72,7 +72,7 @@ class ModelWithLoss(nn.Module):
 
 def train():
 
-    if efficient_config.num_gpus == 0:
+    if config.num_gpus == 0:
         os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
 
     if torch.cuda.is_available():
@@ -95,19 +95,19 @@ def train():
                   'num_workers': num_workers}
 
     input_sizes = [512, 640, 768, 896, 1024, 1280, 1280, 1536]
-    training_set = CocoDataset(root_dir=os.path.join(data_path, efficient_config.project_name), set=efficient_config.train_set,
-                        transform=transforms.Compose([Normalizer(mean=efficient_config.mean, std=efficient_config.std),
+    training_set = CocoDataset(root_dir=os.path.join(data_path, config.project_name), set=config.train_set,
+                               transform=transforms.Compose([Normalizer(mean=config.mean, std=config.std),
                                                       Augmenter(),
                                                       Resizer(input_sizes[compound_coef])]))
     training_generator = DataLoader(training_set, **training_params)
 
-    val_set = CocoDataset(root_dir=os.path.join(data_path, efficient_config.project_name), set=efficient_config.val_set,
-                   transform=transforms.Compose([Normalizer(mean=efficient_config.mean, std=efficient_config.std),
+    val_set = CocoDataset(root_dir=os.path.join(data_path, config.project_name), set=config.val_set,
+                          transform=transforms.Compose([Normalizer(mean=config.mean, std=config.std),
                                                  Resizer(input_sizes[compound_coef])]))
     val_generator = DataLoader(val_set, **val_params)
 
-    model = EfficientDetBackbone(num_classes=len(efficient_config.obj_list), compound_coef=compound_coef,
-                                 ratios=eval(efficient_config.anchors_ratios), scales=eval(efficient_config.anchors_scales))
+    model = EfficientDetBackbone(num_classes=len(config.obj_list), compound_coef=compound_coef,
+                                 ratios=eval(config.anchors_ratios), scales=eval(config.anchors_scales))
 
     # load last weights
     if load_weights is not None:
@@ -152,7 +152,7 @@ def train():
     # apply sync_bn can solve it,
     # by packing all mini-batch across all gpus as one batch and normalize, then send it back to all gpus.
     # but it would also slow down the training by a little bit.
-    if efficient_config.num_gpus > 1 and batch_size // efficient_config.num_gpus < 4:
+    if config.num_gpus > 1 and batch_size // config.num_gpus < 4:
         model.apply(replace_w_sync_bn)
         use_sync_bn = True
     else:
@@ -163,10 +163,10 @@ def train():
     # warp the model with loss function, to reduce the memory usage on gpu0 and speedup
     model = ModelWithLoss(model, debug=debug)
 
-    if efficient_config.num_gpus > 0:
+    if config.num_gpus > 0:
         model = model.cuda()
-        if efficient_config.num_gpus > 1:
-            model = CustomDataParallel(model, efficient_config.num_gpus)
+        if config.num_gpus > 1:
+            model = CustomDataParallel(model, config.num_gpus)
             if use_sync_bn:
                 patch_replication_callback(model)
 
@@ -201,14 +201,14 @@ def train():
                     imgs = data['img']
                     annot = data['annot']
 
-                    if efficient_config.num_gpus == 1:
+                    if config.num_gpus == 1:
                         # if only one gpu, just send it to cuda:0
                         # elif multiple gpus, send it to multiple gpus in CustomDataParallel, not here
                         imgs = imgs.cuda()
                         annot = annot.cuda()
 
                     optimizer.zero_grad()
-                    cls_loss, reg_loss = model(imgs, annot, obj_list=efficient_config.obj_list)
+                    cls_loss, reg_loss = model(imgs, annot, obj_list=config.obj_list)
                     cls_loss = cls_loss.mean()
                     reg_loss = reg_loss.mean()
 
@@ -255,11 +255,11 @@ def train():
                         imgs = data['img']
                         annot = data['annot']
 
-                        if efficient_config.num_gpus == 1:
+                        if config.num_gpus == 1:
                             imgs = imgs.cuda()
                             annot = annot.cuda()
 
-                        cls_loss, reg_loss = model(imgs, annot, obj_list=efficient_config.obj_list)
+                        cls_loss, reg_loss = model(imgs, annot, obj_list=config.obj_list)
                         cls_loss = cls_loss.mean()
                         reg_loss = reg_loss.mean()
 

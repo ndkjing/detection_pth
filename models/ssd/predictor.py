@@ -6,7 +6,7 @@ from utils.ssd.misc import Timer
 
 class Predictor:
     def __init__(self, net, size, mean=0.0, std=1.0, nms_method=None,
-                 iou_threshold=0.45, filter_threshold=0.01, candidate_size=200, sigma=0.5, device=None):
+                 iou_threshold=0.45, filter_threshold=0.01, candidate_size=200, sigma=0.5, device_id=None):
         self.net = net
         self.transform = PredictionTransform(size, mean, std)
         self.iou_threshold = iou_threshold
@@ -15,10 +15,10 @@ class Predictor:
         self.nms_method = nms_method
 
         self.sigma = sigma
-        if device:
-            self.device = device
+        if device_id:
+            self.device = torch.device("cuda:%d"%device_id if torch.cuda.is_available() else "cpu")
         else:
-            self.device = torch.device("cuda:2" if torch.cuda.is_available() else "cpu")
+            self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
         self.net.to(self.device)
         self.net.eval()
@@ -26,7 +26,6 @@ class Predictor:
         self.timer = Timer()
 
     def predict(self, image, top_k=-1, prob_threshold=None):
-        cpu_device = torch.device("cpu")
         height, width, _ = image.shape
         image = self.transform(image)
         images = image.unsqueeze(0)
@@ -40,8 +39,8 @@ class Predictor:
         if not prob_threshold:
             prob_threshold = self.filter_threshold
         # this version of nms is slower on GPU, so we move datasets to CPU.
-        boxes = boxes.to(cpu_device)
-        scores = scores.to(cpu_device)
+        boxes = boxes.to(self.device)
+        scores = scores.to(self.device)
         picked_box_probs = []
         picked_labels = []
         for class_index in range(1, scores.size(1)):

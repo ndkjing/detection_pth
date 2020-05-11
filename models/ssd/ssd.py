@@ -21,7 +21,7 @@ GraphPath_m3 = namedtuple("GraphPath", ['s0', 'name'])  #给mobilenetv3使用
 class SSD(nn.Module):
     def __init__(self, num_classes: int, base_net: nn.ModuleList, source_layer_indexes: List[int],
                  extras: nn.ModuleList, classification_headers: nn.ModuleList,
-                 regression_headers: nn.ModuleList, is_test=False, config=None, device=None,device_id=2):
+                 regression_headers: nn.ModuleList, is_test=False, config=None,device_id=None):
         """Compose a SSD model using the given components.
         num_classes:输入类别数量
         base_net: 基础网络
@@ -44,13 +44,13 @@ class SSD(nn.Module):
         # register layers in source_layer_indexes by adding them to a module list
         self.source_layer_add_ons = nn.ModuleList([t[1] for t in source_layer_indexes
                                                    if isinstance(t, tuple) and not isinstance(t, GraphPath)])
-        if device:
-            device = device
+        if device_id:
+            self.device = torch.device("cuda:%d"%device_id if torch.cuda.is_available() else "cpu")
         else:
-            device = torch.device("cuda:%d"%device_id if torch.cuda.is_available() else "cpu")
+            self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
         if is_test:
             self.config = config
-            self.priors = config.priors.to(device)
+            self.priors = config.priors.to(self.device)
             
     def forward(self, x: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
         confidences = []

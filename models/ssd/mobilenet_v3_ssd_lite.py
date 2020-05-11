@@ -26,7 +26,7 @@ def SeperableConv2d(in_channels, out_channels, kernel_size=1, stride=1, padding=
 # 1，3
 # 9,11 所以是11
 #一共是19层，所以这里是20
-def create_mobilenetv3_ssd_lite(num_classes, width_mult=1.0, is_test=False):
+def create_mobilenetv3_ssd_lite(num_classes, width_mult=1.0, is_test=False,device_id=None):
     base_net = MobileNetV3().features
 
     source_layer_indexes = [GraphPath(11, 'conv'),20,]
@@ -85,15 +85,15 @@ def create_mobilenetv3_ssd_lite(num_classes, width_mult=1.0, is_test=False):
     ])
 
     return SSD(num_classes, base_net, source_layer_indexes,
-               extras, classification_headers, regression_headers, is_test=is_test, config=config)
+               extras, classification_headers, regression_headers, is_test=is_test, config=config,device_id=device_id)
 
 
-def create_mobilenetv3_ssd_lite_predictor(net, candidate_size=200, nms_method=None, sigma=0.5, device=torch.device('cpu')):
+def create_mobilenetv3_ssd_lite_predictor(net, candidate_size=200, nms_method=None, sigma=0.5, device=torch.device('cpu'),device_id=None):
     predictor = Predictor(net, config.image_size, config.image_mean,
                           config.image_std,
                           nms_method=nms_method,
                           iou_threshold=config.iou_threshold,
                           candidate_size=candidate_size,
                           sigma=sigma,
-                          device=device)
+                          device_id=device_id)
     return predictor

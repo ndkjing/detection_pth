@@ -6,7 +6,7 @@ from .predictor import Predictor
 from config.ssd import mobilenetv1_ssd_config as config
 
 
-def create_mobilenetv1_ssd(num_classes, is_test=False, device_id = 2):
+def create_mobilenetv1_ssd(num_classes, is_test=False, device_id =None):
     base_net = MobileNetV1(1001).model  # disable dropout layer
 
     source_layer_indexes = [
@@ -62,12 +62,12 @@ def create_mobilenetv1_ssd(num_classes, is_test=False, device_id = 2):
                extras, classification_headers, regression_headers, is_test=is_test, config=config,device_id=device_id)
 
     # 生成锚框
-def create_mobilenetv1_ssd_predictor(net, candidate_size=200, nms_method=None, sigma=0.5, device=None):
+def create_mobilenetv1_ssd_predictor(net, candidate_size=200, nms_method=None, sigma=0.5, device_id=None):
     predictor = Predictor(net, config.image_size, config.image_mean,
                           config.image_std,
                           nms_method=nms_method,
                           iou_threshold=config.iou_threshold,
                           candidate_size=candidate_size,
                           sigma=sigma,
-                          device=device)
+                          device_id=device_id)
     return predictor

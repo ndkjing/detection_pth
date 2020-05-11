@@ -3,6 +3,16 @@ import os.path
 
 # gets home dir cross platform home目录
 HOME = os.path.dirname(os.path.dirname(os.path.abspath('__file__')))
+use_gpu_id=3
+pre_train_weight_path ={"mb2-ssd-lite":"/Data/jing/weights/pth/ssd/pre_train/mb2-ssd-lite-mp-0_686.pth",
+                  "mb1-ssd":"/Data/jing/weights/pth/ssd/pre_train/mobilenet-v1-ssd-mp-0_675.pth",
+                  "vgg16-ssd":"/Data/jing/weights/pth/ssd/pre_train/vgg16-ssd-mp-0_7726.pth"}
+
+save_weight_path="/Data/jing/weights/pth/ssd"
+
+label_file_path = {"voc":"/home/create/jing/jing_vision/detection/pth/pth/datasets/ssd/voc-model-labels.txt",
+                   "coco":"/home/create/jing/jing_vision/detection/pth/pth/datasets/ssd/coco_labels.txt",
+                   "egohands":"/home/create/jing/jing_vision/detection/pth/pth/datasets/ssd/ego-models-labels.txt"}
 
 # for making bounding boxes pretty
 COLORS = ((255, 0, 0, 128), (0, 255, 0, 128), (0, 0, 255, 128),
