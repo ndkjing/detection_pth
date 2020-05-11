@@ -6,7 +6,7 @@ import torch.utils.data as data
 import cv2
 import numpy as np
 
-COCO_ROOT = osp.join(HOME, 'datasets/')
+COCO_ROOT = osp.join(HOME, 'datasets/ssd')
 IMAGES = 'images'
 ANNOTATIONS = 'annotations'
 COCO_API = 'PythonAPI'

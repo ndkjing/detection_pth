@@ -15,12 +15,12 @@ import numpy as np
 
 from utils.efficientdet.anchor_utils import BBoxTransform, ClipBoxes
 from utils.efficientdet.custom_utils import preprocess, invert_affine, postprocess, STANDARD_COLORS, standard_to_bgr, get_index_label, plot_one_box
-
+from config.efficient import config
 # 设置使用 d-x
 compound_coef = 0  # 0 1 2 3 4 5 6 7
 force_input_size = None  # set None to use default size
 img_path = '../images_test/img.png'
-weight_root = '/Data/jing/weights/pth/weights/efficientdet'
+weight_root = config.pre_train_weight_path
 # replace this part with your project's anchor config
 anchor_ratios = [(1.0, 1.0), (1.4, 0.7), (0.7, 1.4)]
 anchor_scales = [2 ** 0, 2 ** (1.0 / 3.0), 2 ** (2.0 / 3.0)]
@@ -60,7 +60,7 @@ x = x.to(torch.float32 if not use_float16 else torch.float16).permute(0, 3, 1, 2
 
 model = EfficientDetBackbone(compound_coef=compound_coef, num_classes=len(obj_list),
                              ratios=anchor_ratios, scales=anchor_scales)
-model.load_state_dict(torch.load(os.path.join(weight_root,'efficientdet-d%d.pth'%(compound_coef))))
+model.load_state_dict(torch.load(weight_root[compound_coef]))
 # model.requires_grad_(False)
 model.eval()
 
@@ -82,6 +82,7 @@ with torch.no_grad():
 
 def display(preds, imgs, imshow=True, imwrite=False):
     for i in range(len(imgs)):
+
         if len(preds[i]['rois']) == 0:
             continue
 
@@ -98,7 +99,7 @@ def display(preds, imgs, imshow=True, imwrite=False):
 
         if imwrite:
             print('write image')
-            cv2.imwrite(f'img_inferred_d{compound_coef}_this_repo_{i}.jpg', imgs[i])
+            cv2.imwrite(f'efficient_d{compound_coef}_detect{i}.jpg', imgs[i])
 
 
 out = invert_affine(framed_metas, out)
