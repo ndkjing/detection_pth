@@ -1,6 +1,4 @@
 # refer  https://github.com/zylo117/Yet-Another-EfficientDet-Pytorch/blob/master/train.py
-
-
 import datetime
 import os
 import argparse
