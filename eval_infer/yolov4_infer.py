@@ -97,6 +97,7 @@ def detect_cv2(cfgfile, weightfile, imgfile):
     else:
         namesfile = 'data/names'
 
+
     use_cuda = 1
     if use_cuda:
         m.cuda()
