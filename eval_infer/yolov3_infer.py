@@ -1,24 +1,25 @@
 ## refer: https://github.com/ultralytics/yolov3
 import argparse
 
-from models import *  # set ONNX_EXPORT in models.py
-from utils.datasets import *
-from utils.utils import *
-
+from models.yolo.yolov3 import *  # set ONNX_EXPORT in models.py
+from utils.yolov3.datasets import *
+from utils.yolov3.utils import *
+from config.yolov3 import config # yolov3相关配置文件
 
 def detect(save_img=False):
-    img_size = (320, 192) if ONNX_EXPORT else opt.img_size  # (320, 192) or (416, 256) or (608, 352) for (height, width)
-    out, source, weights, half, view_img, save_txt = opt.output, opt.source, opt.weights, opt.half, opt.view_img, opt.save_txt
+    img_size = (320, 192) if ONNX_EXPORT else config.img_size  # (320, 192) or (416, 256) or (608, 352) for (height, width)
+    out, source, weights, half, view_img, save_txt = config.output, config.source, config.weights, config.half, config.view_img, config.save_txt
     webcam = source == '0' or source.startswith('rtsp') or source.startswith('http') or source.endswith('.txt')
 
     # Initialize
-    device = torch_utils.select_device(device='cpu' if ONNX_EXPORT else opt.device)
-    if os.path.exists(out):
-        shutil.rmtree(out)  # delete output folder
-    os.makedirs(out)  # make new output folder
+    device = torch_utils.select_device(device='cpu' if ONNX_EXPORT else config.device)
+    # if os.path.exists(out):
+    #     shutil.rmtree(out)  # delete output folder
+    if not os.path.exists(out):
+        os.makedirs(out)  # make new output folder
 
     # Initialize model
-    model = Darknet(opt.cfg, img_size)
+    model = Darknet(config.cfg, img_size)
 
     # Load weights
     attempt_download(weights)
@@ -44,7 +45,7 @@ def detect(save_img=False):
     if ONNX_EXPORT:
         model.fuse()
         img = torch.zeros((1, 3) + img_size)  # (1, 3, 320, 192)
-        f = opt.weights.replace(opt.weights.split('.')[-1], 'onnx')  # *.onnx filename
+        f = config.weights.replace(config.weights.split('.')[-1], 'onnx')  # *.onnx filename
         torch.onnx.export(model, img, f, verbose=False, opset_version=11,
                           input_names=['images'], output_names=['classes', 'boxes'])
 
@@ -71,7 +72,7 @@ def detect(save_img=False):
         dataset = LoadImages(source, img_size=img_size)
 
     # Get names and colors
-    names = load_classes(opt.names)
+    names = load_classes(config.names)
     colors = [[random.randint(0, 255) for _ in range(3)] for _ in range(len(names))]
 
     # Run inference
@@ -87,7 +88,7 @@ def detect(save_img=False):
 
         # Inference
         t1 = torch_utils.time_synchronized()
-        pred = model(img, augment=opt.augment)[0]
+        pred = model(img, augment=config.augment)[0]
         t2 = torch_utils.time_synchronized()
 
         # to float
@@ -95,8 +96,8 @@ def detect(save_img=False):
             pred = pred.float()
 
         # Apply NMS
-        pred = non_max_suppression(pred, opt.conf_thres, opt.iou_thres,
-                                   multi_label=False, classes=opt.classes, agnostic=opt.agnostic_nms)
+        pred = non_max_suppression(pred, config.conf_thres, config.iou_thres,
+                                   multi_label=False, classes=config.classes, agnostic=config.agnostic_nms)
 
         # Apply Classifier
         if classify:
@@ -108,8 +109,10 @@ def detect(save_img=False):
                 p, s, im0 = path[i], '%g: ' % i, im0s[i]
             else:
                 p, s, im0 = path, '', im0s
-
-            save_path = str(Path(out) / Path(p).name)
+            # 检测输出图片命名规则改为 放在images_out文件中名称为模型名称
+            image_name = os.path.split(config.source)[1]
+            save_path = os.path.join(out,image_name.split('.')[0]+"_"+config.model_name+".jpg")
+            # print(save_path)
             s += '%gx%g ' % img.shape[2:]  # print string
             if det is not None and len(det):
                 # Rescale boxes from img_size to im0 size
@@ -152,7 +155,7 @@ def detect(save_img=False):
                         fps = vid_cap.get(cv2.CAP_PROP_FPS)
                         w = int(vid_cap.get(cv2.CAP_PROP_FRAME_WIDTH))
                         h = int(vid_cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
-                        vid_writer = cv2.VideoWriter(save_path, cv2.VideoWriter_fourcc(*opt.fourcc), fps, (w, h))
+                        vid_writer = cv2.VideoWriter(save_path, cv2.VideoWriter_fourcc(*config.fourcc), fps, (w, h))
                     vid_writer.write(im0)
 
     if save_txt or save_img:
@@ -164,25 +167,8 @@ def detect(save_img=False):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--cfg', type=str, default='cfg/yolov3-spp.cfg', help='*.cfg path')
-    parser.add_argument('--names', type=str, default='data/coco.names', help='*.names path')
-    parser.add_argument('--weights', type=str, default='weights/yolov3-spp-ultralytics.pt', help='weights path')
-    parser.add_argument('--source', type=str, default='data/samples', help='source')  # input file/folder, 0 for webcam
-    parser.add_argument('--output', type=str, default='output', help='output folder')  # output folder
-    parser.add_argument('--img-size', type=int, default=512, help='inference size (pixels)')
-    parser.add_argument('--conf-thres', type=float, default=0.3, help='object confidence threshold')
-    parser.add_argument('--iou-thres', type=float, default=0.6, help='IOU threshold for NMS')
-    parser.add_argument('--fourcc', type=str, default='mp4v', help='output video codec (verify ffmpeg support)')
-    parser.add_argument('--half', action='store_true', help='half precision FP16 inference')
-    parser.add_argument('--device', default='', help='device id (i.e. 0 or 0,1) or cpu')
-    parser.add_argument('--view-img', action='store_true', help='display results')
-    parser.add_argument('--save-txt', action='store_true', help='save results to *.txt')
-    parser.add_argument('--classes', nargs='+', type=int, help='filter by class')
-    parser.add_argument('--agnostic-nms', action='store_true', help='class-agnostic NMS')
-    parser.add_argument('--augment', action='store_true', help='augmented inference')
-    opt = parser.parse_args()
-    print(opt)
+
+
 
     with torch.no_grad():
         detect()

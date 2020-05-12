@@ -1,6 +1,6 @@
-from utils.google_utils import *
-from utils.layers import *
-from utils.parse_config import *
+from utils.yolov3.google_utils import *
+from utils.yolov3.layers import *
+from utils.yolov3.parse_config import *
 
 ONNX_EXPORT = False
 
