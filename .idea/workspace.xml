@@ -2,10 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6b2c98a0-4ae3-494b-b9d7-f1e3e463199f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/config/yolov3/config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eval_infer/efficientdet_infer.py" beforeDir="false" afterPath="$PROJECT_DIR$/eval_infer/efficientdet_infer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eval_infer/eval_ssd.py" beforeDir="false" afterPath="$PROJECT_DIR$/eval_infer/ssd_eval.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eval_infer/live.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eval_infer/ssd_infer.py" beforeDir="false" afterPath="$PROJECT_DIR$/eval_infer/ssd_infer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/eval_infer/yolov3_infer.py" beforeDir="false" afterPath="$PROJECT_DIR$/eval_infer/yolov3_infer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/yolo/yolov3.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/yolo/yolov3.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eval_infer/yolov4_infer.py" beforeDir="false" afterPath="$PROJECT_DIR$/eval_infer/yolov4_infer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eval_ssd.py" beforeDir="false" afterPath="$PROJECT_DIR$/eval_ssd.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -14,33 +18,68 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/pth$yolov4_infer.coverage" NAME="yolov4_infer Coverage Results" MODIFIED="1589189564778" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/eval_infer" />
+    <SUITE FILE_PATH="coverage/pth$yolov4_infer.coverage" NAME="yolov4_infer Coverage Results" MODIFIED="1589250339599" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/eval_infer" />
     <SUITE FILE_PATH="coverage/pth$train_ssd.coverage" NAME="train_ssd Coverage Results" MODIFIED="1589179676363" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/train_model" />
     <SUITE FILE_PATH="coverage/pth$yolov3_infer.coverage" NAME="yolov3_infer Coverage Results" MODIFIED="1589249189234" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/eval_infer" />
-    <SUITE FILE_PATH="coverage/pth$efficientdet_infer.coverage" NAME="efficientdet_infer Coverage Results" MODIFIED="1589182773797" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/eval_infer" />
-    <SUITE FILE_PATH="coverage/pth$ssd_infer.coverage" NAME="ssd_infer Coverage Results" MODIFIED="1589181886203" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/eval_infer" />
+    <SUITE FILE_PATH="coverage/pth$efficientdet_infer.coverage" NAME="efficientdet_infer Coverage Results" MODIFIED="1589249864338" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/eval_infer" />
+    <SUITE FILE_PATH="coverage/pth$ssd_infer.coverage" NAME="ssd_infer Coverage Results" MODIFIED="1589250081558" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/eval_infer" />
     <SUITE FILE_PATH="coverage/pth$train_efficientdet.coverage" NAME="train_efficientdet Coverage Results" MODIFIED="1589167121985" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/train_model" />
     <SUITE FILE_PATH="coverage/pth$retinanet_infer.coverage" NAME="retinanet_infer Coverage Results" MODIFIED="1589185533673" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/eval_infer" />
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/eval_infer/yolov3_infer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="317">
-              <caret line="115" column="30" lean-forward="true" selection-start-line="115" selection-start-column="30" selection-end-line="115" selection-end-column="30" />
+            <state relative-caret-position="132">
+              <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
               <folding>
-                <element signature="e#48#63#0" expanded="true" />
+                <element signature="e#50#114#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/config/yolov3/config.py">
+        <entry file="file://$PROJECT_DIR$/eval_infer/efficientdet_infer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="88">
-              <caret line="4" column="6" selection-start-line="4" selection-end-line="4" selection-end-column="6" />
+            <state relative-caret-position="1795">
+              <caret line="110" column="11" selection-start-line="110" selection-start-column="11" selection-end-line="110" selection-end-column="11" />
+              <folding>
+                <element signature="e#75#84#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/eval_infer/ssd_eval.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <folding>
+                <element signature="e#0#12#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/eval_infer/ssd_infer.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="342">
+              <caret line="68" column="30" lean-forward="true" selection-start-line="68" selection-start-column="30" selection-end-line="68" selection-end-column="30" />
+              <folding>
+                <element signature="e#0#10#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/eval_infer/yolov4_infer.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="286">
+              <caret line="117" column="6" selection-start-line="117" selection-start-column="6" selection-end-line="117" selection-end-column="6" />
             </state>
           </provider>
         </entry>
@@ -92,8 +131,6 @@
         <option value="$PROJECT_DIR$/models/ssd/mobilenetv1_ssd_lite.py" />
         <option value="$PROJECT_DIR$/models/ssd/mobilenet_v3_ssd_lite.py" />
         <option value="$PROJECT_DIR$/models/ssd/squeezenet_ssd_lite.py" />
-        <option value="$PROJECT_DIR$/eval_infer/ssd_infer.py" />
-        <option value="$PROJECT_DIR$/eval_infer/efficientdet_infer.py" />
         <option value="$PROJECT_DIR$/utils/retinanet/utils.py" />
         <option value="$PROJECT_DIR$/layers/retinanet/anchors.py" />
         <option value="$PROJECT_DIR$/layers/retinanet/losses.py" />
@@ -116,7 +153,6 @@
         <option value="$PROJECT_DIR$/models/yolo/YoloLayer.py" />
         <option value="$PROJECT_DIR$/utils/yolo/region_loss.py" />
         <option value="$PROJECT_DIR$/config/yolo/config.py" />
-        <option value="$PROJECT_DIR$/eval_infer/yolov4_infer.py" />
         <option value="$PROJECT_DIR$/utils/yolov3/utils.py" />
         <option value="$PROJECT_DIR$/utils/yolov3/torch_utils.py" />
         <option value="$PROJECT_DIR$/utils/yolov3/parse_config.py" />
@@ -127,6 +163,9 @@
         <option value="$PROJECT_DIR$/models/yolo/yolov3.py" />
         <option value="$PROJECT_DIR$/config/yolov3/config.py" />
         <option value="$PROJECT_DIR$/eval_infer/yolov3_infer.py" />
+        <option value="$PROJECT_DIR$/eval_infer/efficientdet_infer.py" />
+        <option value="$PROJECT_DIR$/eval_infer/ssd_infer.py" />
+        <option value="$PROJECT_DIR$/eval_infer/yolov4_infer.py" />
       </list>
     </option>
   </component>
@@ -154,12 +193,6 @@
               <item name="pth" type="b2602c69:ProjectViewProjectNode" />
               <item name="pth" type="462c0819:PsiDirectoryNode" />
               <item name="config" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="pth" type="b2602c69:ProjectViewProjectNode" />
-              <item name="pth" type="462c0819:PsiDirectoryNode" />
-              <item name="config" type="462c0819:PsiDirectoryNode" />
-              <item name="yolov3" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="pth" type="b2602c69:ProjectViewProjectNode" />
@@ -196,12 +229,6 @@
               <item name="pth" type="462c0819:PsiDirectoryNode" />
               <item name="utils" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="pth" type="b2602c69:ProjectViewProjectNode" />
-              <item name="pth" type="462c0819:PsiDirectoryNode" />
-              <item name="utils" type="462c0819:PsiDirectoryNode" />
-              <item name="yolov3" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -234,7 +261,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.yolov3_infer">
+  <component name="RunManager" selected="Python.yolov4_infer">
     <configuration name="efficientdet_infer" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="pth" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -347,11 +374,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.yolov3_infer" />
         <item itemvalue="Python.yolov4_infer" />
-        <item itemvalue="Python.retinanet_infer" />
-        <item itemvalue="Python.efficientdet_infer" />
         <item itemvalue="Python.ssd_infer" />
+        <item itemvalue="Python.efficientdet_infer" />
+        <item itemvalue="Python.yolov3_infer" />
+        <item itemvalue="Python.retinanet_infer" />
       </list>
     </recent_temporary>
   </component>
@@ -365,7 +392,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1589162580288</updated>
-      <workItem from="1589162582000" duration="26585000" />
+      <workItem from="1589162582000" duration="28163000" />
     </task>
     <task id="LOCAL-00001" summary="update file">
       <created>1589164204241</created>
@@ -472,18 +499,25 @@
       <option name="project" value="LOCAL" />
       <updated>1589247143596</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="update file">
+      <created>1589249259971</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1589249259971</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="26585000" />
+    <option name="totallyTimeSpent" value="28163000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1234" y="0" width="1317" height="1047" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Favorites" order="0" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.21877486" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.21877486" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Database Changes" order="0" />
       <window_info anchor="bottom" id="Log Analyzer" order="1" />
@@ -497,7 +531,7 @@
       <window_info anchor="bottom" id="Docker" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Message" order="10" />
       <window_info anchor="bottom" id="Find" order="11" weight="0.32968238" />
-      <window_info active="true" anchor="bottom" id="Run" order="12" visible="true" weight="0.32968238" />
+      <window_info anchor="bottom" id="Run" order="12" visible="true" weight="0.32968238" />
       <window_info anchor="bottom" id="Debug" order="13" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="14" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="15" weight="0.4" />
@@ -529,16 +563,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/ssd/predictor.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="17" selection-start-line="17" selection-end-line="20" selection-end-column="88" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ssd/data_preprocessing.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/utils/ssd/box_utils.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
@@ -610,16 +634,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="393">
           <caret line="80" column="61" lean-forward="true" selection-start-line="80" selection-start-column="61" selection-end-line="80" selection-end-column="61" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/eval_infer/ssd_infer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="650">
-          <caret line="58" lean-forward="true" selection-start-line="58" selection-end-line="58" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -704,17 +718,6 @@
           <caret line="303" column="4" selection-start-line="303" selection-start-column="4" selection-end-line="303" selection-end-column="4" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/eval_infer/efficientdet_infer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="143">
-          <caret line="21" selection-start-line="21" selection-end-line="21" selection-end-column="35" />
-          <folding>
-            <element signature="e#75#84#0" expanded="true" />
-            <element signature="e#984#1993#0" />
           </folding>
         </state>
       </provider>
@@ -838,38 +841,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/eval_infer/yolov4_infer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
-          <folding>
-            <element signature="e#178#208#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/utils/yolo/utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3850">
-          <caret line="396" selection-start-line="396" selection-end-line="396" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-            <element signature="e#261#291#0" />
-            <element signature="e#314#434#0" />
-            <element signature="e#482#1378#0" />
-            <element signature="e#503#758#0" />
-            <element signature="e#777#1120#0" />
-            <element signature="e#1431#2445#0" />
-            <element signature="e#1452#1763#0" />
-            <element signature="e#1782#2189#0" />
-            <element signature="e#2732#3094#0" />
-            <element signature="e#7347#10758#0" />
-            <element signature="e#10842#12358#0" />
-            <element signature="e#13816#14093#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/utils/yolov3/utils.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="374">
@@ -963,11 +934,79 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/eval_infer/yolov3_infer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="317">
-          <caret line="115" column="30" lean-forward="true" selection-start-line="115" selection-start-column="30" selection-end-line="115" selection-end-column="30" />
+        <state relative-caret-position="132">
+          <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
           <folding>
-            <element signature="e#48#63#0" expanded="true" />
+            <element signature="e#50#114#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/eval_infer/efficientdet_infer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1795">
+          <caret line="110" column="11" selection-start-line="110" selection-start-column="11" selection-end-line="110" selection-end-column="11" />
+          <folding>
+            <element signature="e#75#84#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/eval_infer/ssd_eval.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/eval_infer/ssd_infer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="68" column="30" lean-forward="true" selection-start-line="68" selection-start-column="30" selection-end-line="68" selection-end-column="30" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/eval_infer/live.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1056">
+          <caret line="63" column="18" selection-start-line="63" selection-start-column="12" selection-end-line="63" selection-end-column="18" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utils/yolo/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="968">
+          <caret line="198" column="29" lean-forward="true" selection-start-line="198" selection-start-column="29" selection-end-line="198" selection-end-column="29" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+            <element signature="e#261#291#0" />
+            <element signature="e#314#434#0" />
+            <element signature="e#482#1378#0" />
+            <element signature="e#503#758#0" />
+            <element signature="e#777#1120#0" />
+            <element signature="e#1431#2445#0" />
+            <element signature="e#1452#1763#0" />
+            <element signature="e#1782#2189#0" />
+            <element signature="e#2732#3094#0" />
+            <element signature="e#7347#10758#0" />
+            <element signature="e#10842#12358#0" />
+            <element signature="e#13816#14093#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/eval_infer/yolov4_infer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="286">
+          <caret line="117" column="6" selection-start-line="117" selection-start-column="6" selection-end-line="117" selection-end-column="6" />
         </state>
       </provider>
     </entry>

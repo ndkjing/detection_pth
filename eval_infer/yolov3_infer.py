@@ -1,5 +1,4 @@
 ## refer: https://github.com/ultralytics/yolov3
-import argparse
 
 from models.yolo.yolov3 import *  # set ONNX_EXPORT in models.py
 from utils.yolov3.datasets import *

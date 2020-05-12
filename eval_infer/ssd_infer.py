@@ -1,4 +1,4 @@
-import sys
+import sys,os
 import cv2
 import time
 import torch
@@ -68,6 +68,7 @@ for i in range(boxes.size(0)):
                 1,  # font scale
                 (255, 0, 255),
                 2)  # line type
-path = "%s_%s.jpg"%(net_type,image_path.split(".")[0])
+path = os.path.join("./images_out/","%s_%s.jpg"%(os.path.split(image_path)[1].split(".")[0],net_type,))
 cv2.imwrite(path, orig_image)
+print("save image path",path)
 print(f"Found {len(probs)} objects. The output image is {path}")

@@ -17,7 +17,7 @@ from utils.efficientdet.anchor_utils import BBoxTransform, ClipBoxes
 from utils.efficientdet.custom_utils import preprocess, invert_affine, postprocess, STANDARD_COLORS, standard_to_bgr, get_index_label, plot_one_box
 from config.efficient import config
 # 设置使用 d-x
-compound_coef = 0  # 0 1 2 3 4 5 6 7
+compound_coef = 3  # 0 1 2 3 4 5 6 7
 force_input_size = None  # set None to use default size
 img_path = '../images_test/img.png'
 weight_root = config.pre_train_weight_path
@@ -99,7 +99,10 @@ def display(preds, imgs, imshow=True, imwrite=False):
 
         if imwrite:
             print('write image')
-            cv2.imwrite(f'efficient_d{compound_coef}_detect{i}.jpg', imgs[i])
+            name_ = os.path.split(img_path)[1].split('.')[0]
+            save_image_path = os.path.join('images_out',f'{name_}_efficient_d{compound_coef}_detect{i}.jpg')
+            print("save image path",save_image_path)
+            cv2.imwrite(save_image_path, imgs[i])
 
 
 out = invert_affine(framed_metas, out)

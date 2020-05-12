@@ -225,4 +225,4 @@ if __name__ == '__main__':
     print(f"\nAverage Precision Across All Classes:{sum(aps)/len(aps)}")
 
 
-# python eval_ssd.py --net mb2-ssd-lite --dataset /Data/jing/VOCdevkit/VOC2007/ --trained_model ./weights/mb2-ssd-lite-mp-0_686.pth --label_file ./weights/voc-model-labels.txt
+# python ssd_eval.py --net mb2-ssd-lite --dataset /Data/jing/VOCdevkit/VOC2007/ --trained_model ./weights/mb2-ssd-lite-mp-0_686.pth --label_file ./weights/voc-model-labels.txt
