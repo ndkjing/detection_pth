@@ -116,7 +116,7 @@ def detect_cv2(cfgfile, weightfile, imgfile):
     class_names = load_class_names(namesfile)
     plot_boxes_cv2(img, boxes, savename='predictions.jpg', class_names=class_names)
 
-##????
+
 def detect_skimage(cfgfile, weightfile, imgfile):
     from skimage import io
     from skimage.transform import resize
