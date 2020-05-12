@@ -7,7 +7,7 @@
 from utils.yolo.utils import *
 from models.yolo.yolov4 import Darknet
 from config.yolo import config
-
+# 检测图片
 def detect(cfgfile, weightfile, imgfile):
     m = Darknet(cfgfile)
 
