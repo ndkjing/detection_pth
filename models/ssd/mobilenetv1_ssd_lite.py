@@ -3,7 +3,7 @@ from backbone.mobilenet import MobileNetV1
 
 from .ssd import SSD
 from .predictor import Predictor
-from config.ssd import mobilenetv1_ssd_config as config
+from config.ssd import  config
 
 
 # lite表示将辅助卷积层也替换为深度可分离卷积

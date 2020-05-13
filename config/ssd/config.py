@@ -1,9 +1,50 @@
-# ssd.py
 import os.path
-
 # gets home dir cross platform home目录
 HOME = os.path.dirname(os.path.dirname(os.path.abspath('__file__')))
-use_gpu_id=3
+import numpy as np
+from utils.ssd.box_utils import SSDSpec, SSDBoxSizes, generate_ssd_priors
+dataset_type = "voc"  # Specify dataset type. Currently support voc and open_images.')
+datasets_path = ["/Data/jing/VOCdevkit/VOC2012","/Data/jing/VOCdevkit/VOC2007"]  # nargs='+', help='Dataset directory path')  # 一个或者多个参数
+validation_dataset = "/Data/jing/VOCdevkit/VOC2007/"  # help='Dataset directory path')
+balance_data = False  # "Balance training datasets by down-sampling more frequent labels.")
+net = "mb1-ssd"  #  mb1-ssd, mb1-lite-ssd, mb2-ssd-lite  mb3-ssd-lite or vgg16-ssd.")
+freeze_base_net=False#, help="Freeze base net layers.")
+freeze_net=False #', action='store_true', help="Freeze all the layers except the prediction head.")
+
+mb2_width_mult=1.0  #', default=1.0, type=float, help='Width Multiplifier for MobilenetV2')
+
+# Params for SGD
+lr=1e-3    #r', '--learning-rate', default=1e-3, type=float, help='initial learning rate')
+momentum=0.9#', default=0.9, type=float, help='Momentum value for optim')
+weight_decay=5e-4  #', default=5e-4, type=float, help='Weight decay for SGD')
+gamma=0.1  # ', default=0.1, type=float, help='Gamma update for SGD')
+base_net_lr=None#', default=None, type=float, help='initial learning rate for base net.')
+extra_layers_lr=None #'initial learning rate for the layers not in base net and prediction heads.')
+
+# Params for loading pretrained basenet or checkpoints.
+base_net=None     # help='Pretrained base model')
+pretrained_ssd=None    #', help='Pre-trained base model')
+resume=None  #default=None, type=str, help='Checkpoint state_dict file to resume training from')
+
+# Scheduler
+scheduler="cosine"#"Scheduler for SGD. It can one of multi-step and cosine")
+
+# Params for Multi-step Scheduler
+milestones="80_100"# type=str, help="milestones for MultiStepLR")
+
+# Params for Cosine Annealing
+t_max=120#type=float, help='T_max value for Cosine Annealing Scheduler.')
+
+# Train params
+batch_size = 32  # type=int,help='Batch size for training')
+num_epochs = 120  # type=int, help='the number epochs')
+num_workers = 4  # type=int,help='Number of workers used in dataloading')
+validation_epochs = 5  # type=int, help='the number epochs')
+debug_steps = 100  # type=int,help='Set the debug log output frequency.')
+use_cuda = True  # type=str2bool,help='Use CUDA to train_model model')
+checkpoint_folder = os.path.join(HOME, 'weights')  # help='Directory for saving checkpoint models')
+
+device_id = 3       # 使用GPU编号
 pre_train_weight_path ={"mb2-ssd-lite":"/Data/jing/weights/pth/ssd/pre_train/mb2-ssd-lite-mp-0_686.pth",
                   "mb1-ssd":"/Data/jing/weights/pth/ssd/pre_train/mobilenet-v1-ssd-mp-0_675.pth",
                   "vgg16-ssd":"/Data/jing/weights/pth/ssd/pre_train/vgg16-ssd-mp-0_7726.pth"}
@@ -50,3 +91,90 @@ coco = {
     'clip': True,
     'name': 'COCO',
 }
+
+class mb1:
+    image_size =300
+    image_mean = np.array([127, 127, 127])  # RGB layout
+    image_std = 128.0
+    iou_threshold = 0.45
+    center_variance = 0.1
+    size_variance = 0.2
+
+    specs = [
+        SSDSpec(19, 16, SSDBoxSizes(60, 105), [2, 3]),
+        SSDSpec(10, 32, SSDBoxSizes(105, 150), [2, 3]),
+        SSDSpec(5, 64, SSDBoxSizes(150, 195), [2, 3]),
+        SSDSpec(3, 100, SSDBoxSizes(195, 240), [2, 3]),
+        SSDSpec(2, 150, SSDBoxSizes(240, 285), [2, 3]),
+        SSDSpec(1, 300, SSDBoxSizes(285, 330), [2, 3])
+    ]
+
+    priors = generate_ssd_priors(specs, image_size)
+
+class vgg_ssd:
+    image_size = 300
+    image_mean = np.array([123, 117, 104])  # RGB layout
+    image_std = 1.0
+
+    iou_threshold = 0.45
+    center_variance = 0.1
+    size_variance = 0.2
+
+    specs = [
+        SSDSpec(38, 8, SSDBoxSizes(30, 60), [2]),
+        SSDSpec(19, 16, SSDBoxSizes(60, 111), [2, 3]),
+        SSDSpec(10, 32, SSDBoxSizes(111, 162), [2, 3]),
+        SSDSpec(5, 64, SSDBoxSizes(162, 213), [2, 3]),
+        SSDSpec(3, 100, SSDBoxSizes(213, 264), [2]),
+        SSDSpec(1, 300, SSDBoxSizes(264, 315), [2])
+    ]
+
+    # 生成锚框
+    priors = generate_ssd_priors(specs, image_size)
+
+
+class squeeze_ssd:
+    image_size = 300
+    image_mean = np.array([127, 127, 127])  # RGB layout
+    image_std = 128.0
+    iou_threshold = 0.45
+    center_variance = 0.1
+    size_variance = 0.2
+
+    specs = [
+        SSDSpec(17, 16, SSDBoxSizes(60, 105), [2, 3]),
+        SSDSpec(10, 32, SSDBoxSizes(105, 150), [2, 3]),
+        SSDSpec(5, 64, SSDBoxSizes(150, 195), [2, 3]),
+        SSDSpec(3, 100, SSDBoxSizes(195, 240), [2, 3]),
+        SSDSpec(2, 150, SSDBoxSizes(240, 285), [2, 3]),
+        SSDSpec(1, 300, SSDBoxSizes(285, 330), [2, 3])
+    ]
+
+    priors = generate_ssd_priors(specs, image_size)
+
+
+class mb3_ssd:
+    image_size = 300
+    image_mean = np.array([127, 127, 127])  # RGB layout
+    image_std = 128.0
+    iou_threshold = 0.45
+    center_variance = 0.1
+    size_variance = 0.2
+
+    specs = [
+        SSDSpec(19, 16, SSDBoxSizes(60, 105), [2, 3]),
+        SSDSpec(10, 32, SSDBoxSizes(105, 150), [2, 3]),
+        SSDSpec(5, 64, SSDBoxSizes(150, 195), [2, 3]),
+        SSDSpec(3, 100, SSDBoxSizes(195, 240), [2, 3]),
+        SSDSpec(2, 150, SSDBoxSizes(240, 285), [2, 3]),
+        SSDSpec(1, 300, SSDBoxSizes(285, 330), [2, 3])
+    ]
+
+    priors = generate_ssd_priors(specs, image_size)
+
+net_self_config={'mb1-ssd':mb1,
+                 'vgg-ssd':vgg_ssd}
+
+
+if __name__=="__main__":
+    pass

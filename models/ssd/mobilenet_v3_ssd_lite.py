@@ -7,7 +7,7 @@ from backbone.mobilenet_v3 import MobileNetV3
 from .mb3_ssd import SSD, GraphPath
 # from .ssd import SSD, GraphPath_m3
 from .predictor import Predictor
-from config.ssd import mobilenetv1_ssd_config as config
+from config.ssd import  config
 
 
 def SeperableConv2d(in_channels, out_channels, kernel_size=1, stride=1, padding=0, onnx_compatible=False):

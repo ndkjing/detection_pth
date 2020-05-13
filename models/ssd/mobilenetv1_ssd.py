@@ -3,7 +3,7 @@ from backbone.mobilenet import MobileNetV1
 
 from .ssd import SSD
 from .predictor import Predictor
-from config.ssd import mobilenetv1_ssd_config as config
+from config.ssd import config
 
 
 def create_mobilenetv1_ssd(num_classes, is_test=False, device_id =None):
