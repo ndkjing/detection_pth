@@ -3,7 +3,9 @@ import sys
 import os
 import xml.etree.ElementTree as ET
 from random import random
-
+"""
+将数据集转为VOC格式
+"""
 def main(filename):
     # ratio to divide up the images
     train = 0.7
@@ -24,7 +26,7 @@ def main(filename):
                 label_string += line.rstrip()
 
     labels = label_string.split(',')
-    labels  = [elem.replace(" ", "") for elem in labels]
+    labels = [elem.replace(" ", "") for elem in labels]
 
     # get image names
     for filename in os.listdir("./JPEGImages"):

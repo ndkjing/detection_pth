@@ -156,12 +156,14 @@ if __name__ == '__main__':
 
         else:
             raise ValueError(f"Dataset type {config.dataset_type} is not supported.")
+
         datasets.append(dataset)
     train_dataset = ConcatDataset(datasets)
     print("Train dataset size: {}".format(len(train_dataset)))
     train_loader = DataLoader(train_dataset, config.batch_size,
                               num_workers=config.num_workers,
                               shuffle=True)
+
     print("Prepare Validation datasets.")
     if config.dataset_type == "voc":
         val_dataset = VOCDataset(config.validation_dataset, transform=test_transform,
@@ -176,8 +178,10 @@ if __name__ == '__main__':
                                  transform=test_transform,
                                  target_transform=target_transform,
                                  is_test=True)
+    else:
+        raise ValueError(f"Dataset type {config.dataset_type} is not supported.")
 
-        print("validation dataset size: {}".format(len(val_dataset)))
+    print("validation dataset size: {}".format(len(val_dataset)))
 
     val_loader = DataLoader(val_dataset, config.batch_size,
                             num_workers=config.num_workers,
