@@ -3,7 +3,7 @@ from backbone.vgg import vgg
 
 from .ssd import SSD
 from .predictor import Predictor
-from config.ssd import vgg_ssd_config as config
+from config.ssd import config
 
 
 def create_vgg_ssd(num_classes, is_test=False,device_id=None):  # VOC 21类

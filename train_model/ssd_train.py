@@ -20,7 +20,7 @@ from models.ssd.mobilenet_v2_ssd_lite import create_mobilenetv2_ssd_lite
 from models.ssd.squeezenet_ssd_lite import create_squeezenet_ssd_lite
 from models.ssd.mobilenet_v3_ssd_lite import create_mobilenetv3_ssd_lite
 
-from config.ssd import vgg_ssd_config, squeezenet_ssd_config,config
+from config.ssd import config
 
 from augment.data_preprocessing import TrainAugmentation, TestTransform
 
@@ -36,7 +36,7 @@ print(DEVICE)
 if config.use_cuda and torch.cuda.is_available():
     torch.backends.cudnn.benchmark = True
     print("Use Cuda.")
-
+print('use model:',config.net_type)
 
 # 训练模型
 def train(loader, net, criterion, optimizer, device, debug_steps=100, epoch=-1):
@@ -103,33 +103,29 @@ if __name__ == '__main__':
     timer = Timer()
 
     # 初始化网络
-    if config.net == 'vgg16-ssd':
+    if config.net_type == 'vgg16_ssd':
         create_net = create_vgg_ssd
-        config = vgg_ssd_config
-    elif config.net == 'mb1-ssd':
+    elif config.net_type == 'mb1_ssd':
         create_net = create_mobilenetv1_ssd
-    elif config.net == 'mb1-ssd-lite':
+    elif config.net_type == 'mb1_ssd_lite':
         create_net = create_mobilenetv1_ssd_lite
-    elif config.net == 'sq-ssd-lite':
+    elif config.net_type == 'sq_ssd_lite':
         create_net = create_squeezenet_ssd_lite
-        config = squeezenet_ssd_config
-    elif config.net == 'mb2-ssd-lite':
+    elif config.net_type == 'mb2_ssd_lite':
         create_net = lambda num: create_mobilenetv2_ssd_lite(num, width_mult=config.mb2_width_mult, device_id=config.device_id)
-        config = mobilenetv1_ssd_config
-    elif config.net == 'mb3-ssd-lite':  # mobilenet_v3还有点问题
+    elif config.net_type == 'mb3_ssd_lite':  # mobilenet_v3还有点问题
         create_net = lambda num: create_mobilenetv3_ssd_lite(num,device_id=config.device_id)
-        config = mobilenetv1_ssd_config
     else:
         print("The net type is wrong.")
         sys.exit(1)
     ##########  准备数据
     # 训练数据增强函数
-    train_transform = TrainAugmentation(config.net_self_config[config.net].image_size, config.net_self_config[config.net].image_mean, config.net_self_config[config.net].image_std)
+    train_transform = TrainAugmentation(config.net_self_config[config.net_type].image_size, config.net_self_config[config.net_type].image_mean, config.net_self_config[config.net_type].image_std)
     # 训练数据标注框生成函数
-    target_transform = MatchPrior(config.net_self_config[config.net].priors, config.net_self_config[config.net].center_variance,
-                                  config.net_self_config[config.net].size_variance, 0.5)
+    target_transform = MatchPrior(config.net_self_config[config.net_type].priors, config.net_self_config[config.net_type].center_variance,
+                                  config.net_self_config[config.net_type].size_variance, 0.5)
 
-    test_transform = TestTransform(config.net_self_config[config.net].image_size, config.net_self_config[config.net].image_mean, config.net_self_config[config.net].image_std)
+    test_transform = TestTransform(config.net_self_config[config.net_type].image_size, config.net_self_config[config.net_type].image_mean, config.net_self_config[config.net_type].image_std)
 
     print("Prepare training datasets.")
     datasets = []
@@ -241,7 +237,7 @@ if __name__ == '__main__':
 
     net = net.to(DEVICE)
     # 损失函数
-    criterion = MultiboxLoss(config.net_self_config[config.net].priors, iou_threshold=0.5, neg_pos_ratio=3,
+    criterion = MultiboxLoss(config.net_self_config[config.net_type].priors, iou_threshold=0.5, neg_pos_ratio=3,
                              center_variance=0.1, size_variance=0.2, device=DEVICE)
     optimizer = torch.optim.SGD(params, lr=config.lr, momentum=config.momentum,
                                 weight_decay=config.weight_decay)

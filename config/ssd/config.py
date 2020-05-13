@@ -3,14 +3,16 @@ import os.path
 HOME = os.path.dirname(os.path.dirname(os.path.abspath('__file__')))
 import numpy as np
 from utils.ssd.box_utils import SSDSpec, SSDBoxSizes, generate_ssd_priors
+
 dataset_type = "voc"  # Specify dataset type. Currently support voc and open_images.')
 datasets_path = ["/Data/jing/VOCdevkit/VOC2012","/Data/jing/VOCdevkit/VOC2007"]  # nargs='+', help='Dataset directory path')  # 一个或者多个参数
 validation_dataset = "/Data/jing/VOCdevkit/VOC2007/"  # help='Dataset directory path')
 balance_data = False  # "Balance training datasets by down-sampling more frequent labels.")
-net = "mb1-ssd"  #  mb1-ssd, mb1-lite-ssd, mb2-ssd-lite  mb3-ssd-lite or vgg16-ssd.")
+net_type_lists = ["mb1_ssd", "mb1_ssd_lite", "mb2_ssd_lite",  "mb3_ssd_lite", "vgg16_ssd"]
+net_type = net_type_lists[0]  #  mb1_ssd, mb1_ssd_lite, mb2_ssd_lite  mb3_ssd_lite or vgg16_ssd.")
+assert net_type in ["mb1_ssd", "mb1_ssd_lite", "mb2_ssd_lite",  "mb3_ssd_lite", "vgg16_ssd"],'net type is not in choose allow'
 freeze_base_net=False#, help="Freeze base net layers.")
 freeze_net=False #', action='store_true', help="Freeze all the layers except the prediction head.")
-
 mb2_width_mult=1.0  #', default=1.0, type=float, help='Width Multiplifier for MobilenetV2')
 
 # Params for SGD
@@ -45,8 +47,9 @@ use_cuda = True  # type=str2bool,help='Use CUDA to train_model model')
 checkpoint_folder = os.path.join(HOME, 'weights')  # help='Directory for saving checkpoint models')
 
 device_id = 3       # 使用GPU编号
-pre_train_weight_path ={"mb2-ssd-lite":"/Data/jing/weights/pth/ssd/pre_train/mb2-ssd-lite-mp-0_686.pth",
-                  "mb1-ssd":"/Data/jing/weights/pth/ssd/pre_train/mobilenet-v1-ssd-mp-0_675.pth",
+
+pre_train_weight_path ={"mb2_ssd_lite":"/Data/jing/weights/pth/ssd/pre_train/mb2-ssd-lite-mp-0_686.pth",
+                  "mb1_ssd":"/Data/jing/weights/pth/ssd/pre_train/mobilenet-v1-ssd-mp-0_675.pth",
                   "vgg16-ssd":"/Data/jing/weights/pth/ssd/pre_train/vgg16-ssd-mp-0_7726.pth"}
 
 save_weight_path="/Data/jing/weights/pth/ssd"
@@ -92,7 +95,7 @@ coco = {
     'name': 'COCO',
 }
 
-class mb1:
+class mb1_ssd:
     image_size =300
     image_mean = np.array([127, 127, 127])  # RGB layout
     image_std = 128.0
@@ -111,7 +114,7 @@ class mb1:
 
     priors = generate_ssd_priors(specs, image_size)
 
-class vgg_ssd:
+class vgg16_ssd:
     image_size = 300
     image_mean = np.array([123, 117, 104])  # RGB layout
     image_std = 1.0
@@ -172,8 +175,11 @@ class mb3_ssd:
 
     priors = generate_ssd_priors(specs, image_size)
 
-net_self_config={'mb1-ssd':mb1,
-                 'vgg-ssd':vgg_ssd}
+net_self_config={'mb1_ssd':mb1_ssd,
+                 'mb1_ssd_lite':vgg16_ssd,
+                 'mb2_ssd_lite':mb1_ssd,
+                 'mb3_ssd_lite':mb3_ssd,
+                 'vgg16_ssd':vgg16_ssd}
 
 
 if __name__=="__main__":

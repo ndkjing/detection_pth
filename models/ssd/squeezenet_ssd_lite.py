@@ -4,7 +4,7 @@ from backbone.squeezenet import squeezenet1_1
 
 from .ssd import SSD
 from .predictor import Predictor
-from config.ssd import squeezenet_ssd_config as config
+from config.ssd import  config
 
 
 def SeperableConv2d(in_channels, out_channels, kernel_size=1, stride=1, padding=0):
