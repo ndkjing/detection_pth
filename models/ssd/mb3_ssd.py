@@ -13,7 +13,7 @@ GraphPath = namedtuple("GraphPath", ['s0', 'name'])  #
 class SSD(nn.Module):
     def __init__(self, num_classes: int, base_net: nn.ModuleList, source_layer_indexes: List[int],
                  extras: nn.ModuleList, classification_headers: nn.ModuleList,
-                 regression_headers: nn.ModuleList, is_test=False, config=None, device=None):
+                 regression_headers: nn.ModuleList, is_test=False, config=None, device_id=None):
         """Compose a SSD model using the given components.
         """
         super(SSD, self).__init__()
@@ -29,10 +29,10 @@ class SSD(nn.Module):
 
         self.source_layer_add_ons = nn.ModuleList([t[1] for t in source_layer_indexes
                                                    if isinstance(t, tuple) and not isinstance(t, GraphPath)])
-        if device:
-            self.device = device
+        if device_id:
+            self.device = torch.device("cuda:%d"%device_id if torch.cuda.is_available() else "cpu")
         else:
-            self.device = torch.device("cuda:2" if torch.cuda.is_available() else "cpu")
+            self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
         if is_test:
             self.config = config
             self.priors = config.priors.to(self.device)

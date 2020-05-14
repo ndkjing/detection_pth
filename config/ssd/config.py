@@ -9,7 +9,7 @@ datasets_path = ["/Data/jing/VOCdevkit/VOC2012","/Data/jing/VOCdevkit/VOC2007"] 
 validation_dataset = "/Data/jing/VOCdevkit/VOC2007/"  # help='Dataset directory path')
 balance_data = False  # "Balance training datasets by down-sampling more frequent labels.")
 net_type_lists = ["mb1_ssd", "mb1_ssd_lite", "mb2_ssd_lite",  "mb3_ssd_lite", "vgg16_ssd"]
-net_type = net_type_lists[0]  #  mb1_ssd, mb1_ssd_lite, mb2_ssd_lite  mb3_ssd_lite or vgg16_ssd.")
+net_type = net_type_lists[3]  #  mb1_ssd, mb1_ssd_lite, mb2_ssd_lite  mb3_ssd_lite or vgg16_ssd.")
 assert net_type in ["mb1_ssd", "mb1_ssd_lite", "mb2_ssd_lite",  "mb3_ssd_lite", "vgg16_ssd"],'net type is not in choose allow'
 freeze_base_net=False#, help="Freeze base net layers.")
 freeze_net=False #', action='store_true', help="Freeze all the layers except the prediction head.")
@@ -39,19 +39,20 @@ t_max=120#type=float, help='T_max value for Cosine Annealing Scheduler.')
 
 # Train params
 batch_size = 32  # type=int,help='Batch size for training')
-num_epochs = 120  # type=int, help='the number epochs')
+num_epochs = 12000  # type=int, help='the number epochs')
 num_workers = 4  # type=int,help='Number of workers used in dataloading')
 validation_epochs = 5  # type=int, help='the number epochs')
 debug_steps = 100  # type=int,help='Set the debug log output frequency.')
 use_cuda = True  # type=str2bool,help='Use CUDA to train_model model')
 checkpoint_folder = os.path.join(HOME, 'weights')  # help='Directory for saving checkpoint models')
 
-device_id = 3       # 使用GPU编号
+device_id = 3       # 使用GPU编号若没有则指定-1或None
 
+# 预训练模型路径
 pre_train_weight_path ={"mb2_ssd_lite":"/Data/jing/weights/pth/ssd/pre_train/mb2-ssd-lite-mp-0_686.pth",
                   "mb1_ssd":"/Data/jing/weights/pth/ssd/pre_train/mobilenet-v1-ssd-mp-0_675.pth",
                   "vgg16-ssd":"/Data/jing/weights/pth/ssd/pre_train/vgg16-ssd-mp-0_7726.pth"}
-
+# 保存模型路劲
 save_weight_path="/Data/jing/weights/pth/ssd"
 
 label_file_path = {"voc":"/home/create/jing/jing_vision/detection/pth/pth/datasets/ssd/voc-model-labels.txt",

@@ -114,7 +114,8 @@ if __name__ == '__main__':
     elif config.net_type == 'mb2_ssd_lite':
         create_net = lambda num: create_mobilenetv2_ssd_lite(num, width_mult=config.mb2_width_mult, device_id=config.device_id)
     elif config.net_type == 'mb3_ssd_lite':  # mobilenet_v3还有点问题
-        create_net = lambda num: create_mobilenetv3_ssd_lite(num,device_id=config.device_id)
+        # create_net = lambda num: create_mobilenetv3_ssd_lite(num,device_id=config.device_id)
+        create_net = create_mobilenetv3_ssd_lite
     else:
         print("The net type is wrong.")
         sys.exit(1)
