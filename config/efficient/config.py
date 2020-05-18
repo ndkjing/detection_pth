@@ -1,28 +1,28 @@
-project_name= "COCO"  # also the folder name of the dataset that under data_path folder
-train_set="train2017"
-val_set= "val2017"
-num_gpus= "3"
+project_name = "COCO"  # also the folder name of the dataset that under data_path folder
+train_set = "train2017"
+val_set = "val2017"
+num_gpus = "2"
 
 # 预训练权重路径
-pre_train_weight_path = {0:"/Data/jing/weights/pth/efficientdet/pre_train/efficientdet-d0.pth",
-            1:"/Data/jing/weights/pth/efficientdet/pre_train/efficientdet-d1.pth",
-            2:"/Data/jing/weights/pth/efficientdet/pre_train/efficientdet-d2.pth",
-            3:"/Data/jing/weights/pth/efficientdet/pre_train/efficientdet-d3.pth",
-            4:"/Data/jing/weights/pth/efficientdet/pre_train/efficientdet-d4.pth",
-            5:"/Data/jing/weights/pth/efficientdet/pre_train/efficientdet-d5.pth",
-            6:"/Data/jing/weights/pth/efficientdet/pre_train/efficientdet-d6.pth",
-            7:"/Data/jing/weights/pth/efficientdet/pre_train/efficientdet-d7.pth"
-        }
+pre_train_weight_path = {0: "/Data/jing/weights/pth/efficientdet/pre_train/efficientdet-d0.pth",
+                         1: "/Data/jing/weights/pth/efficientdet/pre_train/efficientdet-d1.pth",
+                         2: "/Data/jing/weights/pth/efficientdet/pre_train/efficientdet-d2.pth",
+                         3: "/Data/jing/weights/pth/efficientdet/pre_train/efficientdet-d3.pth",
+                         4: "/Data/jing/weights/pth/efficientdet/pre_train/efficientdet-d4.pth",
+                         5: "/Data/jing/weights/pth/efficientdet/pre_train/efficientdet-d5.pth",
+                         6: "/Data/jing/weights/pth/efficientdet/pre_train/efficientdet-d6.pth",
+                         7: "/Data/jing/weights/pth/efficientdet/pre_train/efficientdet-d7.pth"
+                         }
 
 save_weight_path = "/Data/jing/weights/pth/efficientdet"
 
 # mean and std in RGB order, actually this part should remain unchanged as long as your dataset is similar to coco.
-mean= [0.485, 0.456, 0.406]
-std=[0.229, 0.224, 0.225]
+mean = [0.485, 0.456, 0.406]
+std = [0.229, 0.224, 0.225]
 
 # this is coco anchors, change it if necessary
-anchors_scales='[2 ** 0, 2 ** (1.0 / 3.0), 2 ** (2.0 / 3.0)]'
-anchors_ratios= '[(1.0, 1.0), (1.4, 0.7), (0.7, 1.4)]'
+anchors_scales = '[2 ** 0, 2 ** (1.0 / 3.0), 2 ** (2.0 / 3.0)]'
+anchors_ratios = '[(1.0, 1.0), (1.4, 0.7), (0.7, 1.4)]'
 
 COCO_CLASSES = ["person", "bicycle", "car", "motorcycle", "airplane", "bus", "train", "truck", "boat",
                 "traffic light", "fire hydrant", "stop sign", "parking meter", "bench", "bird", "cat", "dog",
@@ -35,18 +35,16 @@ COCO_CLASSES = ["person", "bicycle", "car", "motorcycle", "airplane", "bus", "tr
                 "microwave", "oven", "toaster", "sink", "refrigerator", "book", "clock", "vase", "scissors",
                 "teddy bear", "hair drier", "toothbrush"]
 
-
-obj_list = ["person", "bicycle", "car", "motorcycle", "airplane", "bus", "train", "truck", "boat",
-                "traffic light", "fire hydrant", "stop sign", "parking meter", "bench", "bird", "cat", "dog",
-                "horse", "sheep", "cow", "elephant", "bear", "zebra", "giraffe", "backpack", "umbrella",
-                "handbag", "tie", "suitcase", "frisbee", "skis", "snowboard", "sports ball", "kite",
-                "baseball bat", "baseball glove", "skateboard", "surfboard", "tennis racket", "bottle",
-                "wine glass", "cup", "fork", "knife", "spoon", "bowl", "banana", "apple", "sandwich", "orange",
-                "broccoli", "carrot", "hot dog", "pizza", "donut", "cake", "chair", "couch", "potted plant",
-                "bed", "dining table", "toilet", "tv", "laptop", "mouse", "remote", "keyboard", "cell phone",
-                "microwave", "oven", "toaster", "sink", "refrigerator", "book", "clock", "vase", "scissors",
-                "teddy bear", "hair drier", "toothbrush"]
-
+obj_list = ['background', "person", "bicycle", "car", "motorcycle", "airplane", "bus", "train", "truck", "boat",
+            "traffic light", "fire hydrant", "stop sign", "parking meter", "bench", "bird", "cat", "dog",
+            "horse", "sheep", "cow", "elephant", "bear", "zebra", "giraffe", "backpack", "umbrella",
+            "handbag", "tie", "suitcase", "frisbee", "skis", "snowboard", "sports ball", "kite",
+            "baseball bat", "baseball glove", "skateboard", "surfboard", "tennis racket", "bottle",
+            "wine glass", "cup", "fork", "knife", "spoon", "bowl", "banana", "apple", "sandwich", "orange",
+            "broccoli", "carrot", "hot dog", "pizza", "donut", "cake", "chair", "couch", "potted plant",
+            "bed", "dining table", "toilet", "tv", "laptop", "mouse", "remote", "keyboard", "cell phone",
+            "microwave", "oven", "toaster", "sink", "refrigerator", "book", "clock", "vase", "scissors",
+            "teddy bear", "hair drier", "toothbrush"]
 
 colors = [(39, 129, 113), (164, 80, 133), (83, 122, 114), (99, 81, 172), (95, 56, 104), (37, 84, 86), (14, 89, 122),
           (80, 7, 65), (10, 102, 25), (90, 185, 109), (106, 110, 132), (169, 158, 85), (188, 185, 26), (103, 1, 17),

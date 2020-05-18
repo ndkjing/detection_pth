@@ -8,8 +8,8 @@ dataset_type = "voc"  # Specify dataset type. Currently support voc and open_ima
 datasets_path = ["/Data/jing/VOCdevkit/VOC2012","/Data/jing/VOCdevkit/VOC2007"]  # nargs='+', help='Dataset directory path')  # 一个或者多个参数
 validation_dataset = "/Data/jing/VOCdevkit/VOC2007/"  # help='Dataset directory path')
 balance_data = False  # "Balance training datasets by down-sampling more frequent labels.")
-net_type_lists = ["mb1_ssd", "mb1_ssd_lite", "mb2_ssd_lite",  "mb3_ssd_lite", "vgg16_ssd"]
-net_type = net_type_lists[3]  #  mb1_ssd, mb1_ssd_lite, mb2_ssd_lite  mb3_ssd_lite or vgg16_ssd.")
+net_type_lists = ["mb1_ssd", "mb1_ssd_lite", 'mb2_ssd_lite',  "mb3_ssd_lite", "vgg16_ssd"]
+net_type = net_type_lists[1]  #  mb1_ssd, mb1_ssd_lite, mb2_ssd_lite  mb3_ssd_lite or vgg16_ssd.")
 assert net_type in ["mb1_ssd", "mb1_ssd_lite", "mb2_ssd_lite",  "mb3_ssd_lite", "vgg16_ssd"],'net type is not in choose allow'
 freeze_base_net=False#, help="Freeze base net layers.")
 freeze_net=False #', action='store_true', help="Freeze all the layers except the prediction head.")
@@ -46,12 +46,12 @@ debug_steps = 100  # type=int,help='Set the debug log output frequency.')
 use_cuda = True  # type=str2bool,help='Use CUDA to train_model model')
 checkpoint_folder = os.path.join(HOME, 'weights')  # help='Directory for saving checkpoint models')
 
-device_id = 3       # 使用GPU编号若没有则指定-1或None
+device_id = 2    # 使用GPU编号若没有则指定-1或None
 
 # 预训练模型路径
-pre_train_weight_path ={"mb2_ssd_lite":"/Data/jing/weights/pth/ssd/pre_train/mb2-ssd-lite-mp-0_686.pth",
-                  "mb1_ssd":"/Data/jing/weights/pth/ssd/pre_train/mobilenet-v1-ssd-mp-0_675.pth",
-                  "vgg16-ssd":"/Data/jing/weights/pth/ssd/pre_train/vgg16-ssd-mp-0_7726.pth"}
+pre_train_weight_path ={'mb2_ssd_lite':"/Data/jing/weights/pth/ssd/pre_train/mb2-ssd-lite-mp-0_686.pth",
+                  'mb1_ssd':"/Data/jing/weights/pth/ssd/pre_train/mobilenet-v1-ssd-mp-0_675.pth",
+                  'vgg16-ssd':"/Data/jing/weights/pth/ssd/pre_train/vgg16-ssd-mp-0_7726.pth"}
 # 保存模型路劲
 save_weight_path="/Data/jing/weights/pth/ssd"
 
@@ -64,6 +64,13 @@ COLORS = ((255, 0, 0, 128), (0, 255, 0, 128), (0, 0, 255, 128),
           (0, 255, 255, 128), (255, 0, 255, 128), (255, 255, 0, 128))
 
 MEANS = (104, 117, 123)
+
+image_size = 300
+image_mean = np.array([127, 127, 127])  # RGB layout
+image_std = 128.0
+iou_threshold = 0.45
+center_variance = 0.1
+size_variance = 0.2
 
 # SSD300 CONFIGS
 voc = {
@@ -82,7 +89,7 @@ voc = {
 }
 
 coco = {
-    'num_classes': 201,
+    'num_classes': 81,
     'lr_steps': (280000, 360000, 400000),
     'max_iter': 400000,
     'feature_maps': [38, 19, 10, 5, 3, 1],
@@ -177,11 +184,18 @@ class mb3_ssd:
     priors = generate_ssd_priors(specs, image_size)
 
 net_self_config={'mb1_ssd':mb1_ssd,
-                 'mb1_ssd_lite':vgg16_ssd,
+                 'mb1_ssd_lite':mb1_ssd,
                  'mb2_ssd_lite':mb1_ssd,
                  'mb3_ssd_lite':mb3_ssd,
                  'vgg16_ssd':vgg16_ssd}
 
 
 if __name__=="__main__":
-    pass
+    a='a'
+    b= ['a','b','c']
+    c = {
+        'a':1,
+        'b':2,
+    }
+    print(a,b,c)
+    assert 'd' in c,'error keys'

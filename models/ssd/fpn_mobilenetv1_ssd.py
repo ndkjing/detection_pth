@@ -4,7 +4,7 @@ from backbone.mobilenet import MobileNetV1
 
 from .fpn_ssd import FPNSSD
 from .predictor import Predictor
-from config.ssd import mobilenetv1_ssd_config as config
+from config.ssd import config
 
 
 def create_fpn_mobilenetv1_ssd(num_classes):

@@ -50,7 +50,7 @@ class SSD(nn.Module):
             self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
         if is_test:
             self.config = config
-            self.priors = config.net_self_config[config.net].priors.to(self.device)
+            self.priors = config.net_self_config[config.net_type].priors.to(self.device)
             
     def forward(self, x: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
         confidences = []
@@ -105,7 +105,10 @@ class SSD(nn.Module):
         if self.is_test:
             confidences = F.softmax(confidences, dim=2)
             boxes = box_utils.convert_locations_to_boxes(
-                locations, self.priors, self.config.center_variance, self.config.size_variance
+                locations,
+                self.config.net_self_config[self.config.net_type].priors,
+                self.config.net_self_config[self.config.net_type].center_variance,
+                self.config.net_self_config[self.config.net_type].size_variance
             )
             boxes = box_utils.center_form_to_corner_form(boxes)
             return confidences, boxes

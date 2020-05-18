@@ -19,7 +19,10 @@ from layers.efficientdet_loss import FocalLoss
 from utils.sync_batchnorm import patch_replication_callback
 from utils.efficientdet.custom_utils import replace_w_sync_bn, CustomDataParallel, get_last_weights, init_weights
 from config.efficient import config
+CUDA_LAUNCH_BLOCKING=1
 
+os.environ['CUDA_VISIBLE_DEVICES'] = config.num_gpus
+device = torch.device('cuda:0')
 class Params:
     def __init__(self, project_file):
         self.params = yaml.safe_load(open(project_file).read())
@@ -29,14 +32,15 @@ class Params:
 
 
 project = 'coco'  # 'project file that contains parameters')
-compound_coef = 0  # , help='coefficients of efficientdet')
+compound_coef = 1  # , help='coefficients of efficientdet')
 num_workers = 12  # , help='num_workers of dataloader')
-batch_size = 12  # , help='The number of images per batch among all devices')
+batch_size = 4  # , help='The number of images per batch among all devices')
 head_only = False  # ,
 #    help='whether finetunes only the regressor and the classifier, '
 #        'useful in early stage convergence or small/easy dataset')
 lr = 1e-4
-optim = 'adamw'  # , help='select optimizer for training, '
+# optim = 'adamw'  # , help='select optimizer for training, '
+optim = 'adam'  # , help='select optimizer for training, '
 ##                                                ' very final stage then switch to \'sgd\'')
 num_epochs = 500
 val_interval = 1  # , help='Number of epoches between valing phases')
@@ -44,7 +48,7 @@ save_interval = 500  # , help='Number of steps between saving')
 es_min_delta = 0.0  ##, help='Early stopping\'s parameter: minimum change loss to qualify as an improvement')
 es_patience = 0  # help='Early stopping\'s parameter: number of epochs with no improvement after which training will be stopped. Set to 0 to disable this technique.')
 data_path = '/Data/jing'
-load_weights = None
+load_weights = config.pre_train_weight_path[compound_coef]
 debug = False  # , help='whether visualize the predicted boxes of trainging,the output images will be in test/')
 
 saved_path = os.path.join(config.save_weight_path, config.project_name)
@@ -73,8 +77,7 @@ class ModelWithLoss(nn.Module):
 def train():
 
     if config.num_gpus != None:
-        os.environ['CUDA_VISIBLE_DEVICES'] = config.num_gpus
-
+        config.num_gpus = len(config.num_gpus.split(','))
     if torch.cuda.is_available():
         torch.cuda.manual_seed(42)
     else:
@@ -152,7 +155,7 @@ def train():
     # apply sync_bn can solve it,
     # by packing all mini-batch across all gpus as one batch and normalize, then send it back to all gpus.
     # but it would also slow down the training by a little bit.
-    if len(config.num_gpus.split(',')) > 1 and batch_size // len(config.num_gpus.split(',')) < 4:
+    if config.num_gpus > 1 and batch_size // config.num_gpus < 4:
         model.apply(replace_w_sync_bn)
         use_sync_bn = True
     else:
@@ -202,11 +205,11 @@ def train():
                     annot = data['annot']
 
                     if config.num_gpus == 1:
+                        pass
                         # if only one gpu, just send it to cuda:0
                         # elif multiple gpus, send it to multiple gpus in CustomDataParallel, not here
-                        imgs = imgs.cuda()
-                        annot = annot.cuda()
-
+                        imgs = imgs.to(device)
+                        annot = annot.to(device)
                     optimizer.zero_grad()
                     cls_loss, reg_loss = model(imgs, annot, obj_list=config.obj_list)
                     cls_loss = cls_loss.mean()
