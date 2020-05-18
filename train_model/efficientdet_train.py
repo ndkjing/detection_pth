@@ -43,7 +43,7 @@ val_interval = 1  # , help='Number of epoches between valing phases')
 save_interval = 500  # , help='Number of steps between saving')
 es_min_delta = 0.0  ##, help='Early stopping\'s parameter: minimum change loss to qualify as an improvement')
 es_patience = 0  # help='Early stopping\'s parameter: number of epochs with no improvement after which training will be stopped. Set to 0 to disable this technique.')
-data_path = './datasets/'
+data_path = '/Data/jing'
 load_weights = None
 debug = False  # , help='whether visualize the predicted boxes of trainging,the output images will be in test/')
 
@@ -72,8 +72,8 @@ class ModelWithLoss(nn.Module):
 
 def train():
 
-    if config.num_gpus == 0:
-        os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
+    if config.num_gpus != None:
+        os.environ['CUDA_VISIBLE_DEVICES'] = config.num_gpus
 
     if torch.cuda.is_available():
         torch.cuda.manual_seed(42)
@@ -152,7 +152,7 @@ def train():
     # apply sync_bn can solve it,
     # by packing all mini-batch across all gpus as one batch and normalize, then send it back to all gpus.
     # but it would also slow down the training by a little bit.
-    if config.num_gpus > 1 and batch_size // config.num_gpus < 4:
+    if len(config.num_gpus.split(',')) > 1 and batch_size // len(config.num_gpus.split(',')) < 4:
         model.apply(replace_w_sync_bn)
         use_sync_bn = True
     else:

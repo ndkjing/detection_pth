@@ -1,7 +1,7 @@
-project_name= "coco"  # also the folder name of the dataset that under data_path folder
+project_name= "COCO"  # also the folder name of the dataset that under data_path folder
 train_set="train2017"
 val_set= "val2017"
-num_gpus= 1
+num_gpus= "3"
 
 # 预训练权重路径
 pre_train_weight_path = {0:"/Data/jing/weights/pth/efficientdet/pre_train/efficientdet-d0.pth",
