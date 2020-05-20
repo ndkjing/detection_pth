@@ -3,7 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="6b2c98a0-4ae3-494b-b9d7-f1e3e463199f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/模型转换.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/ssd/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config/ssd/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/visual_platform.py" beforeDir="false" afterPath="$PROJECT_DIR$/visual_platform.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -25,18 +26,58 @@
     <SUITE FILE_PATH="coverage/pth$train_ssd.coverage" NAME="train_ssd Coverage Results" MODIFIED="1589179676363" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/train_model" />
     <SUITE FILE_PATH="coverage/pth$efficientdet_train.coverage" NAME="efficientdet_train Coverage Results" MODIFIED="1589769285272" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/train_model" />
     <SUITE FILE_PATH="coverage/pth$ssd_train.coverage" NAME="ssd_train Coverage Results" MODIFIED="1589783050456" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/train_model" />
-    <SUITE FILE_PATH="coverage/pth$visual_platform.coverage" NAME="visual_platform Coverage Results" MODIFIED="1589529485057" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/pth$visual_platform.coverage" NAME="visual_platform Coverage Results" MODIFIED="1589938770629" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/eval_infer/ssd_infer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="396">
-              <caret line="18" column="16" selection-start-line="18" selection-start-column="16" selection-end-line="18" selection-end-column="16" />
+            <state relative-caret-position="1210">
+              <caret line="55" column="29" selection-start-line="55" selection-start-column="29" selection-end-line="55" selection-end-column="29" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/train_model/ssd_train.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="308">
+              <caret line="128" column="77" selection-start-line="128" selection-start-column="77" selection-end-line="128" selection-end-column="77" />
+              <folding>
+                <element signature="e#5355#6821#0" />
+                <element signature="e#8618#9258#0" />
+                <element signature="e#9295#9591#0" />
+                <element signature="e#9610#10038#0" />
+                <element signature="e#10100#10179#0" />
+                <element signature="e#10214#10308#0" />
+                <element signature="e#10349#10547#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/visual_platform.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="347">
+              <caret line="680" lean-forward="true" selection-start-line="680" selection-end-line="680" />
+              <folding>
+                <element signature="e#1284#7475#0" />
+                <element signature="e#7506#13828#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/config/ssd/config.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="220">
+              <caret line="10" column="35" selection-start-line="10" selection-start-column="35" selection-end-line="10" selection-end-column="35" />
             </state>
           </provider>
         </entry>
@@ -119,7 +160,6 @@
         <option value="$PROJECT_DIR$/train_model/ssd_train.py" />
         <option value="$PROJECT_DIR$/../../visual_platform/柱状图V0514.ipynb" />
         <option value="$PROJECT_DIR$/../../visual_platform/build/setup.py" />
-        <option value="$PROJECT_DIR$/visual_platform.py" />
         <option value="$PROJECT_DIR$/datasets/efficientdet/coco.py" />
         <option value="$PROJECT_DIR$/config/efficient/config.py" />
         <option value="$PROJECT_DIR$/train_model/efficientdet_train.py" />
@@ -127,13 +167,14 @@
         <option value="$PROJECT_DIR$/models/ssd/predictor.py" />
         <option value="$PROJECT_DIR$/models/ssd/fpn_mobilenetv1_ssd.py" />
         <option value="$PROJECT_DIR$/models/ssd/mb3_ssd.py" />
-        <option value="$PROJECT_DIR$/config/ssd/config.py" />
         <option value="$PROJECT_DIR$/eval_infer/ssd_infer.py" />
         <option value="$PROJECT_DIR$/convert_torch_to_tflite.py" />
         <option value="$PROJECT_DIR$/convert_model/ssd_pth2keras.py" />
         <option value="$PROJECT_DIR$/convert_model/read_onnx.py" />
         <option value="$PROJECT_DIR$/convert_model/tf2tflite.py" />
         <option value="$PROJECT_DIR$/Untitled.ipynb" />
+        <option value="$PROJECT_DIR$/config/ssd/config.py" />
+        <option value="$PROJECT_DIR$/visual_platform.py" />
       </list>
     </option>
   </component>
@@ -157,6 +198,16 @@
             <path>
               <item name="pth" type="b2602c69:ProjectViewProjectNode" />
               <item name="pth" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pth" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pth" type="462c0819:PsiDirectoryNode" />
+              <item name="eval_infer" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pth" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pth" type="462c0819:PsiDirectoryNode" />
+              <item name="train_model" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -191,7 +242,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.read_onnx">
+  <component name="RunManager" selected="Python.visual_platform">
     <configuration name="convert_torch_to_tflite" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="pth" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -280,7 +331,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="ssd_train" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="visual_platform" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="pth" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -288,12 +339,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/train_model" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/train_model/ssd_train.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/visual_platform.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -304,11 +355,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.visual_platform" />
         <item itemvalue="Python.read_onnx" />
         <item itemvalue="Python.ssd_pth2keras" />
         <item itemvalue="Python.convert_torch_to_tflite" />
         <item itemvalue="Python.ssd_infer" />
-        <item itemvalue="Python.ssd_train" />
       </list>
     </recent_temporary>
   </component>
@@ -324,7 +375,9 @@
       <updated>1589162580288</updated>
       <workItem from="1589162582000" duration="44702000" />
       <workItem from="1589421525195" duration="16906000" />
-      <workItem from="1589520046164" duration="34560000" />
+      <workItem from="1589520046164" duration="37754000" />
+      <workItem from="1589853173860" duration="2135000" />
+      <workItem from="1589937427156" duration="1004000" />
     </task>
     <task id="LOCAL-00001" summary="update file">
       <created>1589164204241</created>
@@ -536,37 +589,44 @@
       <option name="project" value="LOCAL" />
       <updated>1589789671280</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="update">
+      <created>1589792860759</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1589792860759</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="96168000" />
+    <option name="totallyTimeSpent" value="102501000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1224" y="0" width="1343" height="1047" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Favorites" order="0" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.16679657" />
+      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.17147312" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Database Changes" order="0" />
       <window_info anchor="bottom" id="Log Analyzer" order="1" />
       <window_info anchor="bottom" id="Terminal" order="2" weight="0.32968238" />
       <window_info anchor="bottom" id="Event Log" order="3" sideWeight="0.5003978" side_tool="true" weight="0.32968238" />
       <window_info anchor="bottom" id="Version Control" order="4" weight="0.32968238" />
-      <window_info anchor="bottom" id="File Transfer" order="5" weight="0.16538882" />
+      <window_info anchor="bottom" id="File Transfer" order="5" visible="true" weight="0.16538882" />
       <window_info anchor="bottom" id="SOQL Query" order="6" />
       <window_info anchor="bottom" id="Anonymous Apex" order="7" />
       <window_info anchor="bottom" id="Python Console" order="8" weight="0.32968238" />
       <window_info anchor="bottom" id="Docker" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Message" order="10" />
-      <window_info active="true" anchor="bottom" id="Find" order="11" visible="true" weight="0.32968238" />
-      <window_info anchor="bottom" id="Run" order="12" sideWeight="0.49960223" weight="0.39430448" />
+      <window_info anchor="bottom" id="Find" order="11" weight="0.32968238" />
+      <window_info active="true" anchor="bottom" id="Run" order="12" sideWeight="0.49960223" visible="true" weight="0.39430448" />
       <window_info anchor="bottom" id="Debug" order="13" weight="0.39978093" />
       <window_info anchor="bottom" id="Cvs" order="14" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="15" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="16" />
-      <window_info anchor="right" id="SciView" order="0" visible="true" weight="0.10132502" />
+      <window_info anchor="right" id="SciView" order="0" visible="true" weight="0.37879968" />
       <window_info anchor="right" id="Database" order="1" />
       <window_info anchor="right" id="Remote Host" order="2" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="3" type="SLIDING" weight="0.4" />
@@ -627,19 +687,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="308">
           <caret line="14" column="29" lean-forward="true" selection-start-line="14" selection-start-column="29" selection-end-line="14" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/visual_platform.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
-          <folding>
-            <element signature="e#1284#7475#0" />
-            <element signature="e#7506#13828#0" />
-            <element signature="e#22476#24592#0" />
-            <element signature="e#24626#26100#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -793,22 +840,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/train_model/ssd_train.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="201">
-          <caret line="190" column="15" lean-forward="true" selection-start-line="190" selection-start-column="15" selection-end-line="190" selection-end-column="15" />
-          <folding>
-            <element signature="e#5355#6821#0" />
-            <element signature="e#8618#9258#0" />
-            <element signature="e#9295#9591#0" />
-            <element signature="e#9610#10038#0" />
-            <element signature="e#10100#10179#0" />
-            <element signature="e#10214#10308#0" />
-            <element signature="e#10349#10547#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/models/ssd/vgg_ssd.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-221">
@@ -833,13 +864,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/训练ssd300.ipynb">
-      <provider selected="true" editor-type-id="ipnb-editor">
-        <state>
-          <selected id="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/训练ssd300.ipynb" />
     <entry file="file://$PROJECT_DIR$/eval_infer/ssd_infer_egohands.ipynb">
       <provider selected="true" editor-type-id="ipnb-editor">
         <state>
@@ -857,61 +882,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/config/ssd/config.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="167">
-          <caret line="51" selection-start-line="51" selection-end-line="51" />
-          <folding>
-            <element signature="e#6398#6975#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/预测.ipynb">
-      <provider selected="true" editor-type-id="ipnb-editor">
-        <state>
-          <selected id="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/模型转换.ipynb">
-      <provider selected="true" editor-type-id="ipnb-editor">
-        <state>
-          <selected id="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/convert_torch_to_tflite.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pth2onnx.ipynb">
-      <provider selected="true" editor-type-id="ipnb-editor">
-        <state>
-          <selected id="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pth模型转onnx模型.ipynb">
-      <provider selected="true" editor-type-id="ipnb-editor">
-        <state>
-          <selected id="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tf2tflite.ipynb">
-      <provider selected="true" editor-type-id="ipnb-editor">
-        <state>
-          <selected id="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/预测.ipynb" />
+    <entry file="file://$PROJECT_DIR$/模型转换.ipynb" />
+    <entry file="file://$PROJECT_DIR$/convert_torch_to_tflite.py" />
+    <entry file="file://$PROJECT_DIR$/pth2onnx.ipynb" />
+    <entry file="file://$PROJECT_DIR$/pth模型转onnx模型.ipynb" />
+    <entry file="file://$PROJECT_DIR$/tf2tflite.ipynb" />
     <entry file="file://$PROJECT_DIR$/convert_model/tf2tflite.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="66">
@@ -973,50 +949,51 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/自定义加载权重指定层.ipynb">
-      <provider selected="true" editor-type-id="ipnb-editor">
-        <state>
-          <selected id="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/convert.ipynb">
-      <provider selected="true" editor-type-id="ipnb-editor">
-        <state>
-          <selected id="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Untitled.ipynb">
-      <provider selected="true" editor-type-id="ipnb-editor">
-        <state>
-          <selected id="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/空调标志检测.ipynb">
-      <provider selected="true" editor-type-id="ipnb-editor">
-        <state>
-          <selected id="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/train.py">
+    <entry file="file://$PROJECT_DIR$/自定义加载权重指定层.ipynb" />
+    <entry file="file://$PROJECT_DIR$/convert.ipynb" />
+    <entry file="file://$PROJECT_DIR$/Untitled.ipynb" />
+    <entry file="file://$PROJECT_DIR$/空调标志检测.ipynb" />
+    <entry file="file://$PROJECT_DIR$/train.py" />
+    <entry file="file://$PROJECT_DIR$/eval_infer/ssd_infer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="7" column="30" selection-start-line="7" selection-start-column="30" selection-end-line="7" selection-end-column="30" />
+        <state relative-caret-position="1210">
+          <caret line="55" column="29" selection-start-line="55" selection-start-column="29" selection-end-line="55" selection-end-column="29" />
           <folding>
-            <element signature="e#0#35#0" expanded="true" />
+            <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/eval_infer/ssd_infer.py">
+    <entry file="file://$PROJECT_DIR$/config/ssd/config.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="18" column="16" selection-start-line="18" selection-start-column="16" selection-end-line="18" selection-end-column="16" />
+        <state relative-caret-position="220">
+          <caret line="10" column="35" selection-start-line="10" selection-start-column="35" selection-end-line="10" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/train_model/ssd_train.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="308">
+          <caret line="128" column="77" selection-start-line="128" selection-start-column="77" selection-end-line="128" selection-end-column="77" />
           <folding>
-            <element signature="e#0#13#0" expanded="true" />
+            <element signature="e#5355#6821#0" />
+            <element signature="e#8618#9258#0" />
+            <element signature="e#9295#9591#0" />
+            <element signature="e#9610#10038#0" />
+            <element signature="e#10100#10179#0" />
+            <element signature="e#10214#10308#0" />
+            <element signature="e#10349#10547#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/visual_platform.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="347">
+          <caret line="680" lean-forward="true" selection-start-line="680" selection-end-line="680" />
+          <folding>
+            <element signature="e#1284#7475#0" />
+            <element signature="e#7506#13828#0" />
           </folding>
         </state>
       </provider>

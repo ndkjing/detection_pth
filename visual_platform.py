@@ -679,7 +679,7 @@ if __name__ == '__main__':
                           })
     # data0 = data1.copy()
 
-    view =BarChart(data=data2)
+    view =BarChart(data=data1)
     view.draw(style=3)
     plt.show()
     # view.draw(ax=view.ax,show_grid_type=None,show_gray_background=True,show_bar_edge=True)
