@@ -1,7 +1,34 @@
-project_name = "COCO"  # also the folder name of the dataset that under data_path folder
+import os
+project_name = "coco"  # also the folder name of the dataset that under data_path folder
 train_set = "train2017"
 val_set = "val2017"
-num_gpus = "2"
+device_id = "3"
+
+# class Params:
+#     def __init__(self, project_file):
+#         self.params = yaml.safe_load(open(project_file).read())
+#
+#     def __getattr__(self, item):
+#         return self.params.get(item, None)
+
+
+project = 'coco'  # 'project file that contains parameters')
+compound_coef = 1  # , help='coefficients of efficientdet')
+num_workers = 12  # , help='num_workers of dataloader')
+batch_size = 4  # , help='The number of images per batch among all devices')
+head_only = False  # ,
+#    help='whether finetunes only the regressor and the classifier, '
+#        'useful in early stage convergence or small/easy dataset')
+lr = 1e-4
+# optim = 'adamw'  # , help='select optimizer for training, '
+optim = 'adam'  # , help='select optimizer for training, '
+##                                                ' very final stage then switch to \'sgd\'')
+num_epochs = 500
+val_interval = 1  # , help='Number of epoches between valing phases')
+save_interval = 500  # , help='Number of steps between saving')
+es_min_delta = 0.0  ##, help='Early stopping\'s parameter: minimum change loss to qualify as an improvement')
+es_patience = 0  # help='Early stopping\'s parameter: number of epochs with no improvement after which training will be stopped. Set to 0 to disable this technique.')
+data_path = '/Data/jing'
 
 # 预训练权重路径
 pre_train_weight_path = {0: "/Data/jing/weights/pth/efficientdet/pre_train/efficientdet-d0.pth",
@@ -13,9 +40,18 @@ pre_train_weight_path = {0: "/Data/jing/weights/pth/efficientdet/pre_train/effic
                          6: "/Data/jing/weights/pth/efficientdet/pre_train/efficientdet-d6.pth",
                          7: "/Data/jing/weights/pth/efficientdet/pre_train/efficientdet-d7.pth"
                          }
-
+# 训练权重保存路径
 save_weight_path = "/Data/jing/weights/pth/efficientdet"
 
+load_weights =pre_train_weight_path[compound_coef]
+debug = False  # , help='whether visualize the predicted boxes of trainging,the output images will be in test/')
+
+saved_path = os.path.join(save_weight_path, project_name)
+log_path = os.path.join(save_weight_path, project_name)
+
+
+os.makedirs(log_path, exist_ok=True)
+os.makedirs(saved_path, exist_ok=True)
 # mean and std in RGB order, actually this part should remain unchanged as long as your dataset is similar to coco.
 mean = [0.485, 0.456, 0.406]
 std = [0.229, 0.224, 0.225]
@@ -35,7 +71,7 @@ COCO_CLASSES = ["person", "bicycle", "car", "motorcycle", "airplane", "bus", "tr
                 "microwave", "oven", "toaster", "sink", "refrigerator", "book", "clock", "vase", "scissors",
                 "teddy bear", "hair drier", "toothbrush"]
 
-obj_list = ['background', "person", "bicycle", "car", "motorcycle", "airplane", "bus", "train", "truck", "boat",
+obj_list = [ "person", "bicycle", "car", "motorcycle", "airplane", "bus", "train", "truck", "boat",
             "traffic light", "fire hydrant", "stop sign", "parking meter", "bench", "bird", "cat", "dog",
             "horse", "sheep", "cow", "elephant", "bear", "zebra", "giraffe", "backpack", "umbrella",
             "handbag", "tie", "suitcase", "frisbee", "skis", "snowboard", "sports ball", "kite",

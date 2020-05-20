@@ -23,7 +23,7 @@ from utils.sync_batchnorm import patch_replication_callback
 from utils.efficientdet.custom_utils import replace_w_sync_bn, CustomDataParallel, get_last_weights, init_weights
 from config.efficient import config
 CUDA_LAUNCH_BLOCKING=1
-os.environ['CUDA_VISIBLE_DEVICES']=config.num_gpus
+os.environ['CUDA_VISIBLE_DEVICES']=config.device_id
 device = torch.device('cuda:0')
 
 class ModelWithLoss(nn.Module):
@@ -45,8 +45,8 @@ class ModelWithLoss(nn.Module):
 
 def train():
 
-    if config.num_gpus != None:
-        config.num_gpus = len(config.num_gpus.split(','))
+    if config.device_id != None:
+        config.device_id = len(config.device_id.split(','))
     if torch.cuda.is_available():
         torch.cuda.manual_seed(42)
     else:
@@ -124,7 +124,7 @@ def train():
     # apply sync_bn can solve it,
     # by packing all mini-batch across all gpus as one batch and normalize, then send it back to all gpus.
     # but it would also slow down the training by a little bit.
-    if config.num_gpus > 1 and config.batch_size // config.num_gpus < 4:
+    if config.device_id > 1 and config.batch_size // config.device_id < 4:
         model.apply(replace_w_sync_bn)
         use_sync_bn = True
     else:
@@ -135,10 +135,10 @@ def train():
     # warp the model with loss function, to reduce the memory usage on gpu0 and speedup
     model = ModelWithLoss(model, debug=config.debug)
 
-    if config.num_gpus > 0:
+    if config.device_id > 0:
         model = model.cuda()
-        if config.num_gpus > 1:
-            model = CustomDataParallel(model, config.num_gpus)
+        if config.device_id > 1:
+            model = CustomDataParallel(model, config.device_id)
             if use_sync_bn:
                 patch_replication_callback(model)
 
@@ -173,7 +173,7 @@ def train():
                     imgs = data['img']
                     annot = data['annot']
 
-                    if config.num_gpus == 1:
+                    if config.device_id == 1:
                         pass
                         # if only one gpu, just send it to cuda:0
                         # elif multiple gpus, send it to multiple gpus in CustomDataParallel, not here
@@ -227,7 +227,7 @@ def train():
                         imgs = data['img']
                         annot = data['annot']
 
-                        if config.num_gpus == 1:
+                        if config.device_id == 1:
                             imgs = imgs.cuda()
                             annot = annot.cuda()
 

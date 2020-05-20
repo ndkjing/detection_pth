@@ -658,8 +658,8 @@ if __name__ == '__main__':
     data1 = pd.DataFrame({'label': ['Feb', 'Jan', 'Mar', 'Apr', 'May', 'Aug', 'Seb'],
                           'V1': [5, 8, 4.3, 7, 8.2, 4.6, 8],
                           'V2': [6, 7, 8.2, 6, 4.5, 7, 8.6],
-                          'V3': [7, 8, 7.2, 4, 3.5, 8, 8.9],
-                          'V4': [5, 5, 8.2, 6, 4.5, 6, 9.6],
+                          # 'V3': [7, 8, 7.2, 4, 3.5, 8, 8.9],
+                          # 'V4': [5, 5, 8.2, 6, 4.5, 6, 9.6],
                           # 'V5': [6, 7, 4.2, 7, 7.5, 7, 8.6],
                           # 'V6': [4, 8, 8.6, 6, 4.5, 5, 6.6],
                           # 'V7': [6, 7, 3.2, 9, 5.5, 8, 4.6],
@@ -677,11 +677,12 @@ if __name__ == '__main__':
                           'V8': [6, 4, 8.2, 6, 6.5, 7, 7.6],
                           'V9': [6, 7, 3.2, 9, 5.5, 8, 4.6]
                           })
-    # data0 = data1.copy()
 
-    view =BarChart(data=data2)
-    view.draw(style=3)
+
+    view =BarChart(data=data1)
+    view.draw(style=1)
     plt.show()
+
     # view.draw(ax=view.ax,show_grid_type=None,show_gray_background=True,show_bar_edge=True)
     # plt.show()
     # view.draw(style=2,color_type=5,show_grid_type=None)

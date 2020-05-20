@@ -9,7 +9,7 @@ datasets_path = ["/Data/jing/VOCdevkit/VOC2012","/Data/jing/VOCdevkit/VOC2007"] 
 validation_dataset = "/Data/jing/VOCdevkit/VOC2007/"  # help='Dataset directory path')
 balance_data = False  # "Balance training datasets by down-sampling more frequent labels.")
 net_type_lists = ["mb1_ssd", "mb1_ssd_lite", 'mb2_ssd_lite',  "mb3_ssd_lite", "vgg16_ssd"]
-net_type = net_type_lists[1]  #  mb1_ssd, mb1_ssd_lite, mb2_ssd_lite  mb3_ssd_lite or vgg16_ssd.")
+net_type = net_type_lists[3]  #  mb1_ssd, mb1_ssd_lite, mb2_ssd_lite  mb3_ssd_lite or vgg16_ssd.")
 assert net_type in ["mb1_ssd", "mb1_ssd_lite", "mb2_ssd_lite",  "mb3_ssd_lite", "vgg16_ssd"],'net type is not in choose allow'
 freeze_base_net=False#, help="Freeze base net layers.")
 freeze_net=False #', action='store_true', help="Freeze all the layers except the prediction head.")
