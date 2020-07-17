@@ -9,7 +9,7 @@ import torch.nn.functional as F
 from utils.ssd import box_utils
 
 GraphPath = namedtuple("GraphPath", ['s0', 'name', 's1'])  #
-GraphPath_m3 = namedtuple("GraphPath", ['s0', 'name'])  #给mobilenetv3使用
+GraphPath_m3 = namedtuple("GraphPath", ['s0', 'name'])  # 给mobilenetv3使用
 
 """
 用于构造所有SSD结构
@@ -18,10 +18,12 @@ GraphPath_m3 = namedtuple("GraphPath", ['s0', 'name'])  #给mobilenetv3使用
     mobilenet类似vgg
 """
 
+
+## 构建SSD模型
 class SSD(nn.Module):
     def __init__(self, num_classes: int, base_net: nn.ModuleList, source_layer_indexes: List[int],
                  extras: nn.ModuleList, classification_headers: nn.ModuleList,
-                 regression_headers: nn.ModuleList, is_test=False, config=None,device_id=None):
+                 regression_headers: nn.ModuleList, is_test=False, config=None, device_id=None):
         """Compose a SSD model using the given components.
         num_classes:输入类别数量
         base_net: 基础网络
@@ -41,17 +43,18 @@ class SSD(nn.Module):
         self.is_test = is_test
         self.config = config
 
+        ## 添加附加层到modulelist modulelist中参数会被自动添加到求导参数中
         # register layers in source_layer_indexes by adding them to a module list
         self.source_layer_add_ons = nn.ModuleList([t[1] for t in source_layer_indexes
                                                    if isinstance(t, tuple) and not isinstance(t, GraphPath)])
         if device_id:
-            self.device = torch.device("cuda:%d"%device_id if torch.cuda.is_available() else "cpu")
+            self.device = torch.device("cuda:%d" % device_id if torch.cuda.is_available() else "cpu")
         else:
             self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
         if is_test:
             self.config = config
             self.priors = config.net_self_config[config.net_type].priors.to(self.device)
-            
+
     def forward(self, x: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
         confidences = []
         locations = []
@@ -75,7 +78,7 @@ class SSD(nn.Module):
                 y = added_layer(x)
             else:
                 y = x
-            if path:   #只在第一次循环有值 GraphPath(s0=11, name='conv', s1=-1)
+            if path:  # 只在第一次循环有值 GraphPath(s0=11, name='conv', s1=-1)
                 sub = getattr(self.base_net[end_layer_index], path.name)
                 for layer in sub[:path.s1]:
                     x = layer(x)
@@ -115,7 +118,7 @@ class SSD(nn.Module):
         else:
             return confidences, locations
 
-    def compute_header(self, i, x): # 计算输出 [分类，回归]
+    def compute_header(self, i, x):  # 计算输出 [分类，回归]
         confidence = self.classification_headers[i](x)
         confidence = confidence.permute(0, 2, 3, 1).contiguous()
         confidence = confidence.view(confidence.size(0), -1, self.num_classes)
@@ -135,7 +138,8 @@ class SSD(nn.Module):
 
     def init_from_pretrained_ssd(self, model):
         state_dict = torch.load(model, map_location=lambda storage, loc: storage)
-        state_dict = {k: v for k, v in state_dict.items() if not (k.startswith("classification_headers") or k.startswith("regression_headers"))}
+        state_dict = {k: v for k, v in state_dict.items() if
+                      not (k.startswith("classification_headers") or k.startswith("regression_headers"))}
         model_dict = self.state_dict()
         model_dict.update(state_dict)
         self.load_state_dict(model_dict)
@@ -156,9 +160,12 @@ class SSD(nn.Module):
         torch.save(self.state_dict(), model_path)
 
 
+## gt_boxes与anchor_box配对
 class MatchPrior(object):
     def __init__(self, center_form_priors, center_variance, size_variance, iou_threshold):
+        ## [center_x,cenyer_y,w,h]样式
         self.center_form_priors = center_form_priors
+        ## [x1,y1,x2,y2]样式
         self.corner_form_priors = box_utils.center_form_to_corner_form(center_form_priors)
         self.center_variance = center_variance
         self.size_variance = size_variance
@@ -172,10 +179,12 @@ class MatchPrior(object):
         boxes, labels = box_utils.assign_priors(gt_boxes, gt_labels,
                                                 self.corner_form_priors, self.iou_threshold)
         boxes = box_utils.corner_form_to_center_form(boxes)
-        locations = box_utils.convert_boxes_to_locations(boxes, self.center_form_priors, self.center_variance, self.size_variance)
+        locations = box_utils.convert_boxes_to_locations(boxes, self.center_form_priors, self.center_variance,
+                                                         self.size_variance)
         return locations, labels
 
 
+## 对添加的卷积层使用xavier 初始化
 def _xavier_init_(m: nn.Module):
     if isinstance(m, nn.Conv2d):
         nn.init.xavier_uniform_(m.weight)

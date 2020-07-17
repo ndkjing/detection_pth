@@ -4,7 +4,7 @@ import torch
 
 from utils.ssd import box_utils
 
-
+## SSD loss 损失函数
 class MultiboxLoss(nn.Module):
     def __init__(self, priors, iou_threshold, neg_pos_ratio,
                  center_variance, size_variance, device):

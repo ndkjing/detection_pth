@@ -1,19 +1,31 @@
+"""
+ssd 配置参数
+"""
 import os.path
 # gets home dir cross platform home目录
 HOME = os.path.dirname(os.path.dirname(os.path.abspath('__file__')))
 import numpy as np
 from utils.ssd.box_utils import SSDSpec, SSDBoxSizes, generate_ssd_priors
 
+
+##  数据集名称 例如 voc open_images  coco
 dataset_type = "voc"  # Specify dataset type. Currently support voc and open_images.')
-datasets_path = ["/Data/jing/VOCdevkit/VOC2012","/Data/jing/VOCdevkit/VOC2007"]  # nargs='+', help='Dataset directory path')  # 一个或者多个参数
+
+## 数据路径  一个或者多个参数
+datasets_path = ["/Data/jing/VOCdevkit/VOC2012","/Data/jing/VOCdevkit/VOC2007"]
+
+##
 validation_dataset = "/Data/jing/VOCdevkit/VOC2007/"  # help='Dataset directory path')
-balance_data = False  # "Balance training datasets by down-sampling more frequent labels.")
-net_type_lists = ["mb1_ssd", "mb1_ssd_lite", 'mb2_ssd_lite',  "mb3_ssd_lite", "vgg16_ssd"]
-net_type = net_type_lists[3]  #  mb1_ssd, mb1_ssd_lite, mb2_ssd_lite  mb3_ssd_lite or vgg16_ssd.")
+
+## 配置训练模型
+
+net_type_lists = ["mb1_ssd", "mb1_ssd_lite", 'mb2_ssd_lite', "mb3_ssd_lite", "vgg16_ssd"]
+net_type = net_type_lists[0]
 assert net_type in ["mb1_ssd", "mb1_ssd_lite", "mb2_ssd_lite",  "mb3_ssd_lite", "vgg16_ssd"],'net type is not in choose allow'
 freeze_base_net=False#, help="Freeze base net layers.")
 freeze_net=False #', action='store_true', help="Freeze all the layers except the prediction head.")
 mb2_width_mult=1.0  #', default=1.0, type=float, help='Width Multiplifier for MobilenetV2')
+balance_data = False  # "Balance training datasets by down-sampling more frequent labels.")
 
 # Params for SGD
 lr=1e-3    #r', '--learning-rate', default=1e-3, type=float, help='initial learning rate')
@@ -26,7 +38,7 @@ extra_layers_lr=None #'initial learning rate for the layers not in base net and 
 # Params for loading pretrained basenet or checkpoints.
 base_net=None     # help='Pretrained base model')
 pretrained_ssd=None    #', help='Pre-trained base model')
-resume=None  #default=None, type=str, help='Checkpoint state_dict file to resume training from')
+resume=r'/Data/jing/weights/detection/pth/ssd/Epoch-10-Loss-6.306763.pth' #default=None, type=str, help='Checkpoint state_dict file to resume training from')
 
 # Scheduler
 scheduler="cosine"#"Scheduler for SGD. It can one of multi-step and cosine")
@@ -53,7 +65,7 @@ pre_train_weight_path ={'mb2_ssd_lite':"/Data/jing/weights/pth/ssd/pre_train/mb2
                   'mb1_ssd':"/Data/jing/weights/pth/ssd/pre_train/mobilenet-v1-ssd-mp-0_675.pth",
                   'vgg16-ssd':"/Data/jing/weights/pth/ssd/pre_train/vgg16-ssd-mp-0_7726.pth"}
 # 保存模型路劲
-save_weight_path="/Data/jing/weights/pth/ssd"
+save_weight_path="/Data/jing/weights/detection/pth/ssd"
 
 label_file_path = {"voc":"/home/create/jing/jing_vision/detection/pth/pth/datasets/ssd/voc-model-labels.txt",
                    "coco":"/home/create/jing/jing_vision/detection/pth/pth/datasets/ssd/coco_labels.txt",
@@ -121,6 +133,7 @@ class mb1_ssd:
     ]
 
     priors = generate_ssd_priors(specs, image_size)
+
 
 class vgg16_ssd:
     image_size = 300
@@ -191,11 +204,4 @@ net_self_config={'mb1_ssd':mb1_ssd,
 
 
 if __name__=="__main__":
-    a='a'
-    b= ['a','b','c']
-    c = {
-        'a':1,
-        'b':2,
-    }
-    print(a,b,c)
-    assert 'd' in c,'error keys'
+    pass

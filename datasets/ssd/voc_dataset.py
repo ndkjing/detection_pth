@@ -25,9 +25,8 @@ class VOCDataset:
         self.ids = VOCDataset._read_image_ids(image_sets_file)
         self.keep_difficult = keep_difficult
 
-        # if the labels file exists, read in the class names
+        # 获取标签  从文件中 或者直接使用默认
         label_file_name = self.root / "labels.txt"
-
         if os.path.isfile(label_file_name):
             class_string = ""
             with open(label_file_name, 'r') as infile:
@@ -42,7 +41,6 @@ class VOCDataset:
             classes = [elem.replace(" ", "") for elem in classes]
             self.class_names = tuple(classes)
             logging.info("VOC Labels read from file: " + str(self.class_names))
-
         else:
             logging.info("No labels file, using default VOC classes.")
             self.class_names = ('BACKGROUND',
@@ -54,6 +52,11 @@ class VOCDataset:
 
         self.class_dict = {class_name: i for i, class_name in enumerate(self.class_names)}
 
+    ## 返回长度
+    def __len__(self):
+        return len(self.ids)
+
+    ## 获取item
     def __getitem__(self, index):
         image_id = self.ids[index]
         boxes, labels, is_difficult = self._get_annotation(image_id)
@@ -78,9 +81,8 @@ class VOCDataset:
         image_id = self.ids[index]
         return image_id, self._get_annotation(image_id)
 
-    def __len__(self):
-        return len(self.ids)
 
+    ## 获取所有图片id
     @staticmethod
     def _read_image_ids(image_sets_file):
         ids = []
@@ -89,6 +91,7 @@ class VOCDataset:
                 ids.append(line.rstrip())
         return ids
 
+    ## 获取标注 （boxes,labels,is_difficult）
     def _get_annotation(self, image_id):
         annotation_file = self.root / f"Annotations/{image_id}.xml"
         objects = ET.parse(annotation_file).findall("object")
@@ -116,6 +119,7 @@ class VOCDataset:
                 np.array(labels, dtype=np.int64),
                 np.array(is_difficult, dtype=np.uint8))
 
+    ## 从id获取图片 返回RGB格式图像
     def _read_image(self, image_id):
         image_file = self.root / f"JPEGImages/{image_id}.jpg"
         image = cv2.imread(str(image_file))

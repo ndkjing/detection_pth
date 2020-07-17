@@ -2,7 +2,7 @@ import os
 project_name = "coco"  # also the folder name of the dataset that under data_path folder
 train_set = "train2017"
 val_set = "val2017"
-device_id = "3"
+num_gpus = "3"
 
 # class Params:
 #     def __init__(self, project_file):

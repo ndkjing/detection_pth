@@ -8,6 +8,7 @@ SSDBoxSizes = collections.namedtuple('SSDBoxSizes', ['min', 'max'])
 
 SSDSpec = collections.namedtuple('SSDSpec', ['feature_map_size', 'shrinkage', 'box_sizes', 'aspect_ratios'])
 
+
 # 生成锚框
 def generate_ssd_priors(specs: List[SSDSpec], image_size, clamp=True) -> torch.Tensor:
     """Generate SSD Prior Boxes.
@@ -32,7 +33,10 @@ def generate_ssd_priors(specs: List[SSDSpec], image_size, clamp=True) -> torch.T
     priors = []
     for spec in specs:
         scale = image_size / spec.shrinkage
-        for j, i in itertools.product(range(spec.feature_map_size), repeat=2): # 求列表笛卡尔积 repeat=2表示使用该列表两次
+        # 求列表笛卡尔积 repeat=2表示使用该列表两次 若为3 返回未0,0 、0,1、 0,2、  1,0、1,1、1,2、  2,0、2,1、2,2
+        for j, i in itertools.product(range(spec.feature_map_size), repeat=2):
+
+            ## TODO 为什么要逐列进行？
             x_center = (i + 0.5) / scale
             y_center = (j + 0.5) / scale
 
@@ -79,7 +83,7 @@ def generate_ssd_priors(specs: List[SSDSpec], image_size, clamp=True) -> torch.T
         torch.clamp(priors, 0.0, 1.0, out=priors)
     return priors
 
-
+## 将偏移转为bbox
 def convert_locations_to_boxes(locations, priors, center_variance,
                                size_variance):
     """Convert regressional location results of SSD into boxes in the form of (center_x, center_y, h, w).
@@ -106,6 +110,7 @@ def convert_locations_to_boxes(locations, priors, center_variance,
     ], dim=locations.dim() - 1)
 
 
+## 为锚框计算偏移量
 def convert_boxes_to_locations(center_form_boxes, center_form_priors, center_variance, size_variance):
     # priors can have one dimension less
     if center_form_priors.dim() + 1 == center_form_boxes.dim():
@@ -116,6 +121,7 @@ def convert_boxes_to_locations(center_form_boxes, center_form_priors, center_var
     ], dim=center_form_boxes.dim() - 1)
 
 
+## 从两个角点计算面积
 def area_of(left_top, right_bottom) -> torch.Tensor:
     """Compute the areas of rectangles given two corners.
 
@@ -130,9 +136,9 @@ def area_of(left_top, right_bottom) -> torch.Tensor:
     return hw[..., 0] * hw[..., 1]
 
 
+## 求iou矩阵
 def iou_of(boxes0, boxes1, eps=1e-5):
     """Return intersection-over-union (Jaccard index) of boxes.
-
     Args:
         boxes0 (N, 4): ground truth boxes.
         boxes1 (N or 1, 4): predicted boxes.
@@ -149,10 +155,10 @@ def iou_of(boxes0, boxes1, eps=1e-5):
     return overlap_area / (area0 + area1 - overlap_area + eps)
 
 
+## 为锚框分配真实框
 def assign_priors(gt_boxes, gt_labels, corner_form_priors,
                   iou_threshold):
     """Assign ground truth boxes and targets to priors.
-
     Args:
         gt_boxes (num_targets, 4): ground truth boxes.
         gt_labels (num_targets): labels of targets.
@@ -161,11 +167,11 @@ def assign_priors(gt_boxes, gt_labels, corner_form_priors,
         boxes (num_priors, 4): real values for priors.
         labels (num_priros): labels for priors.
     """
-    # size: num_priors x num_targets
+    # iou矩阵  维度: num_priors x num_targets
     ious = iou_of(gt_boxes.unsqueeze(0), corner_form_priors.unsqueeze(1))
-    # size: num_priors
+    # 每一行上最大值 维度: num_priors
     best_target_per_prior, best_target_per_prior_index = ious.max(1)
-    # size: num_targets
+    # 每一列最大值  维度: num_targets
     best_prior_per_target, best_prior_per_target_index = ious.max(0)
 
     for target_index, prior_index in enumerate(best_prior_per_target_index):
@@ -179,6 +185,7 @@ def assign_priors(gt_boxes, gt_labels, corner_form_priors,
     return boxes, labels
 
 
+## 找到最难区分的负样本，按照指定比例选择正负样本比例
 def hard_negative_mining(loss, labels, neg_pos_ratio):
     """
     It used to suppress the presence of a large number of negative prediction.
@@ -205,18 +212,21 @@ def hard_negative_mining(loss, labels, neg_pos_ratio):
     return pos_mask | neg_mask
 
 
+## 将数据从[center_x,center_y,w,h] --> [x1,y1,x2,y2]
 def center_form_to_corner_form(locations):
-    return torch.cat([locations[..., :2] - locations[..., 2:]/2,
-                     locations[..., :2] + locations[..., 2:]/2], locations.dim() - 1) 
+    return torch.cat([locations[..., :2] - locations[..., 2:] / 2,
+                      locations[..., :2] + locations[..., 2:] / 2], locations.dim() - 1)
 
 
+## 将数据从 [x1,y1,x2,y2]  -->  [center_x,center_y,w,h]
 def corner_form_to_center_form(boxes):
     return torch.cat([
         (boxes[..., :2] + boxes[..., 2:]) / 2,
-         boxes[..., 2:] - boxes[..., :2]
+        boxes[..., 2:] - boxes[..., :2]
     ], boxes.dim() - 1)
 
 
+## 传统nms 算法
 def hard_nms(box_scores, iou_threshold, top_k=-1, candidate_size=200):
     """
 
@@ -249,7 +259,7 @@ def hard_nms(box_scores, iou_threshold, top_k=-1, candidate_size=200):
 
     return box_scores[picked, :]
 
-
+## 执行nms
 def nms(box_scores, nms_method=None, score_threshold=None, iou_threshold=None,
         sigma=0.5, top_k=-1, candidate_size=200):
     if nms_method == "soft":
@@ -257,7 +267,7 @@ def nms(box_scores, nms_method=None, score_threshold=None, iou_threshold=None,
     else:
         return hard_nms(box_scores, iou_threshold, top_k, candidate_size=candidate_size)
 
-
+## soft nms
 def soft_nms(box_scores, score_threshold, sigma=0.5, top_k=-1):
     """Soft NMS implementation.
 
@@ -291,6 +301,3 @@ def soft_nms(box_scores, score_threshold, sigma=0.5, top_k=-1):
         return torch.stack(picked_box_scores)
     else:
         return torch.tensor([])
-
-
-

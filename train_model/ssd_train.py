@@ -1,45 +1,50 @@
 # refer:   https://github.com/qfgaohao/pytorch-ssd
 
-import os, sys
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath("__file__"))))
-import os
-import sys
-import itertools
-
-import torch
-from torch.utils.data import DataLoader, ConcatDataset
-from torch.optim.lr_scheduler import CosineAnnealingLR, MultiStepLR
+from layers.multibox_loss import MultiboxLoss
+from datasets.ssd.egohands_dataset import EGODataset
+from datasets.ssd.open_images import OpenImagesDataset
+from datasets.ssd.voc_dataset import VOCDataset
+from augment.data_preprocessing import TrainAugmentation, TestTransform
+from config.ssd import config
+from models.ssd.mobilenet_v3_ssd_lite import create_mobilenetv3_ssd_lite
+from models.ssd.squeezenet_ssd_lite import create_squeezenet_ssd_lite
+from models.ssd.mobilenet_v2_ssd_lite import create_mobilenetv2_ssd_lite
+from models.ssd.mobilenetv1_ssd_lite import create_mobilenetv1_ssd_lite
+from models.ssd.mobilenetv1_ssd import create_mobilenetv1_ssd
+from models.ssd.vgg_ssd import create_vgg_ssd
+from models.ssd.ssd import MatchPrior
 
 from utils.ssd.misc import Timer, freeze_net_layers, store_labels
-
-from models.ssd.ssd import MatchPrior
-from models.ssd.vgg_ssd import create_vgg_ssd
-from models.ssd.mobilenetv1_ssd import create_mobilenetv1_ssd
-from models.ssd.mobilenetv1_ssd_lite import create_mobilenetv1_ssd_lite
-from models.ssd.mobilenet_v2_ssd_lite import create_mobilenetv2_ssd_lite
-from models.ssd.squeezenet_ssd_lite import create_squeezenet_ssd_lite
-from models.ssd.mobilenet_v3_ssd_lite import create_mobilenetv3_ssd_lite
-
-from config.ssd import config
-
-from augment.data_preprocessing import TrainAugmentation, TestTransform
-
-from datasets.ssd.voc_dataset import VOCDataset
-from datasets.ssd.open_images import OpenImagesDataset
-from datasets.ssd.egohands_dataset import EGODataset
-
-from layers.multibox_loss import MultiboxLoss
+from torch.optim.lr_scheduler import CosineAnnealingLR, MultiStepLR
+from torch.utils.data import DataLoader, ConcatDataset
+import torch
+import itertools
+import sys
+import os
+import os
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath("__file__"))))
 
 
-DEVICE = torch.device("cuda:%d" % config.device_id if torch.cuda.is_available() and config.use_cuda else "cpu")
+DEVICE = torch.device(
+    "cuda:%d" %
+    config.device_id if torch.cuda.is_available() and config.use_cuda else "cpu")
 print(DEVICE)
 if config.use_cuda and torch.cuda.is_available():
     torch.backends.cudnn.benchmark = True
     print("Use Cuda.")
-print('use model:',config.net_type)
+print('use model:', config.net_type)
+
 
 # 训练模型
-def train(loader, net, criterion, optimizer, device, debug_steps=100, epoch=-1):
+def train(
+        loader,
+        net,
+        criterion,
+        optimizer,
+        device,
+        debug_steps=100,
+        epoch=-1):
     net.train(True)
     running_loss = 0.0
     running_regression_loss = 0.0
@@ -52,7 +57,8 @@ def train(loader, net, criterion, optimizer, device, debug_steps=100, epoch=-1):
 
         optimizer.zero_grad()
         confidence, locations = net(images)
-        regression_loss, classification_loss = criterion(confidence, locations, labels, boxes)  # TODO CHANGE BOXES
+        regression_loss, classification_loss = criterion(
+            confidence, locations, labels, boxes)  # TODO CHANGE BOXES
         loss = regression_loss + classification_loss
         loss.backward()
         optimizer.step()
@@ -90,13 +96,15 @@ def eval_model(loader, net, criterion, device):
 
         with torch.no_grad():
             confidence, locations = net(images)
-            regression_loss, classification_loss = criterion(confidence, locations, labels, boxes)
+            regression_loss, classification_loss = criterion(
+                confidence, locations, labels, boxes)
             loss = regression_loss + classification_loss
 
         running_loss += loss.item()
         running_regression_loss += regression_loss.item()
         running_classification_loss += classification_loss.item()
-    return running_loss / num, running_regression_loss / num, running_classification_loss / num
+    return running_loss / num, running_regression_loss / \
+        num, running_classification_loss / num
 
 
 if __name__ == '__main__':
@@ -112,23 +120,30 @@ if __name__ == '__main__':
     elif config.net_type == 'sq_ssd_lite':
         create_net = create_squeezenet_ssd_lite
     elif config.net_type == 'mb2_ssd_lite':
-        create_net = lambda num: create_mobilenetv2_ssd_lite(num, width_mult=config.mb2_width_mult, device_id=config.device_id)
+        def create_net(num): return create_mobilenetv2_ssd_lite(
+            num, width_mult=config.mb2_width_mult, device_id=config.device_id)
     elif config.net_type == 'mb3_ssd_lite':  # mobilenet_v3还有点问题
         # create_net = lambda num: create_mobilenetv3_ssd_lite(num,device_id=config.device_id)
         create_net = create_mobilenetv3_ssd_lite
     else:
         print("The net type is wrong.")
         sys.exit(1)
-    ##########  准备数据
+    # 准备数据
     # 训练数据增强函数
-    train_transform = TrainAugmentation(config.net_self_config[config.net_type].image_size, config.net_self_config[config.net_type].image_mean, config.net_self_config[config.net_type].image_std)
+    train_transform = TrainAugmentation(config.net_self_config[config.net_type].image_size,
+                                        config.net_self_config[config.net_type].image_mean,
+                                        config.net_self_config[config.net_type].image_std)
     # 训练数据标注框生成函数
-    target_transform = MatchPrior(config.net_self_config[config.net_type].priors, config.net_self_config[config.net_type].center_variance,
-                                  config.net_self_config[config.net_type].size_variance, 0.5)
+    target_transform = MatchPrior(config.net_self_config[config.net_type].priors,
+                                  config.net_self_config[config.net_type].center_variance,
+                                  config.net_self_config[config.net_type].size_variance,
+                                  0.5)
 
-    test_transform = TestTransform(config.net_self_config[config.net_type].image_size, config.net_self_config[config.net_type].image_mean, config.net_self_config[config.net_type].image_std)
+    test_transform = TestTransform(config.net_self_config[config.net_type].image_size,
+                                   config.net_self_config[config.net_type].image_mean,
+                                   config.net_self_config[config.net_type].image_std)
 
-    print("Prepare training datasets.")
+    print("准备训练数据")
     datasets = []
     for dataset_path in config.datasets_path:
         if config.dataset_type == 'voc':
@@ -140,10 +155,15 @@ if __name__ == '__main__':
             num_classes = len(dataset.class_names)  # 类别数量
 
         elif config.dataset_type == 'open_images':
-            dataset = OpenImagesDataset(dataset_path,
-                                        transform=train_transform, target_transform=target_transform,
-                                        dataset_type="train_model", balance_data=config.balance_data)
-            label_file = os.path.join(config.checkpoint_folder, "open-images-model-labels.txt")
+            dataset = OpenImagesDataset(
+                dataset_path,
+                transform=train_transform,
+                target_transform=target_transform,
+                dataset_type="train_model",
+                balance_data=config.balance_data)
+            label_file = os.path.join(
+                config.checkpoint_folder,
+                "open-images-model-labels.txt")
             store_labels(label_file, dataset.class_names)
             print(dataset)
             num_classes = len(dataset.class_names)
@@ -151,12 +171,15 @@ if __name__ == '__main__':
         elif config.dataset_type == 'ego':
             dataset = EGODataset(dataset_path, transform=train_transform,
                                  target_transform=target_transform)
-            label_file = os.path.join(config.checkpoint_folder, "ego-model-labels.txt")
+            label_file = os.path.join(
+                config.checkpoint_folder,
+                "ego-model-labels.txt")
             store_labels(label_file, dataset.class_names)
             num_classes = len(dataset.class_names)  # 类别数量
 
         else:
-            raise ValueError(f"Dataset type {config.dataset_type} is not supported.")
+            raise ValueError(
+                f"Dataset type {config.dataset_type} is not supported.")
 
         datasets.append(dataset)
     train_dataset = ConcatDataset(datasets)
@@ -167,12 +190,17 @@ if __name__ == '__main__':
 
     print("Prepare Validation datasets.")
     if config.dataset_type == "voc":
-        val_dataset = VOCDataset(config.validation_dataset, transform=test_transform,
-                                 target_transform=target_transform, is_test=True)
+        val_dataset = VOCDataset(
+            config.validation_dataset,
+            transform=test_transform,
+            target_transform=target_transform,
+            is_test=True)
     elif config.dataset_type == 'open_images':
-        val_dataset = OpenImagesDataset(config.validation_dataset,
-                                        transform=test_transform, target_transform=target_transform,
-                                        dataset_type="test")
+        val_dataset = OpenImagesDataset(
+            config.validation_dataset,
+            transform=test_transform,
+            target_transform=target_transform,
+            dataset_type="test")
         print(val_dataset)
     elif config.dataset_type == 'ego':
         val_dataset = EGODataset(config.validation_dataset,
@@ -180,25 +208,30 @@ if __name__ == '__main__':
                                  target_transform=target_transform,
                                  is_test=True)
     else:
-        raise ValueError(f"Dataset type {config.dataset_type} is not supported.")
+        raise ValueError(
+            f"Dataset type {config.dataset_type} is not supported.")
 
     print("validation dataset size: {}".format(len(val_dataset)))
 
     val_loader = DataLoader(val_dataset, config.batch_size,
                             num_workers=config.num_workers,
                             shuffle=False)
-    print("Build network.")
-    net = create_net(num_classes,device_id=config.device_id)  # 创建网络 传入类别数量
+    print("创建网络...")
+    net = create_net(num_classes, device_id=config.device_id)  # 创建网络 传入类别数量
     min_loss = -10000.0
     last_epoch = -1
 
+    ## 配置不同层学习率
     base_net_lr = config.base_net_lr if config.base_net_lr is not None else config.lr
     extra_layers_lr = config.extra_layers_lr if config.extra_layers_lr is not None else config.lr
     if config.freeze_base_net:
         print("Freeze base net.")
         freeze_net_layers(net.base_net)
-        params = itertools.chain(net.source_layer_add_ons.parameters(), net.extras.parameters(),
-                                 net.regression_headers.parameters(), net.classification_headers.parameters())
+        params = itertools.chain(
+            net.source_layer_add_ons.parameters(),
+            net.extras.parameters(),
+            net.regression_headers.parameters(),
+            net.classification_headers.parameters())
         params = [
             {'params': itertools.chain(
                 net.source_layer_add_ons.parameters(),
@@ -213,7 +246,9 @@ if __name__ == '__main__':
         freeze_net_layers(net.base_net)
         freeze_net_layers(net.source_layer_add_ons)
         freeze_net_layers(net.extras)
-        params = itertools.chain(net.regression_headers.parameters(), net.classification_headers.parameters())
+        params = itertools.chain(
+            net.regression_headers.parameters(),
+            net.classification_headers.parameters())
         print("Freeze all the layers except prediction heads.")
     else:
         params = [
@@ -241,14 +276,22 @@ if __name__ == '__main__':
         print(f'Took {timer.end("Load Model"):.2f} seconds to load the model.')
 
     net = net.to(DEVICE)
+
     # 损失函数
-    criterion = MultiboxLoss(config.net_self_config[config.net_type].priors, iou_threshold=0.5, neg_pos_ratio=3,
-                             center_variance=0.1, size_variance=0.2, device=DEVICE)
+    criterion = MultiboxLoss(config.net_self_config[config.net_type].priors,
+                             iou_threshold=0.5,
+                             neg_pos_ratio=3,
+                             center_variance=0.1,
+                             size_variance=0.2,
+                             device=DEVICE)
     optimizer = torch.optim.SGD(params, lr=config.lr, momentum=config.momentum,
                                 weight_decay=config.weight_decay)
-    print(f"Learning rate: {config.lr}, Base net learning rate: {base_net_lr}, "
-                 + f"Extra Layers learning rate: {extra_layers_lr}.")
+    print(
+        f"Learning rate: {config.lr}, Base net learning rate: {base_net_lr}, " +
+        f"Extra Layers learning rate: {extra_layers_lr}.")
 
+
+    ### 设置学习方式
     if config.scheduler == 'multi-step':
         print("Uses MultiStepLR scheduler.")
         milestones = [int(v.strip()) for v in config.milestones.split(",")]
@@ -256,26 +299,32 @@ if __name__ == '__main__':
                                 gamma=0.1, last_epoch=last_epoch)
     elif config.scheduler == 'cosine':
         print("Uses CosineAnnealingLR scheduler.")
-        scheduler = CosineAnnealingLR(optimizer, config.t_max, last_epoch=last_epoch)
+        scheduler = CosineAnnealingLR(
+            optimizer, config.t_max, last_epoch=last_epoch)
     else:
         print(f"Unsupported Scheduler: {config.scheduler}.")
         sys.exit(1)
 
-    print("Start training from epoch ",last_epoch + 1)
+    print("Start training from epoch ", last_epoch + 1)
     for epoch in range(last_epoch + 1, config.num_epochs):
         scheduler.step()
         train(train_loader, net, criterion, optimizer,
               device=DEVICE, debug_steps=config.debug_steps, epoch=epoch)
 
         if epoch % config.validation_epochs == 0 or epoch == config.num_epochs - 1:
-            val_loss, val_regression_loss, val_classification_loss = eval_model(val_loader, net, criterion, DEVICE)
+            val_loss, val_regression_loss, val_classification_loss = eval_model(
+                val_loader, net, criterion, DEVICE)
             print(
-                "Epoch:",epoch,
-                "Validation Loss:" ,val_loss,
-                "Validation Regression Loss " ,val_regression_loss,
-                "Validation Classification Loss:",val_classification_loss,
+                "Epoch:", epoch,
+                "Validation Loss:", val_loss,
+                "Validation Regression Loss ", val_regression_loss,
+                "Validation Classification Loss:", val_classification_loss,
             )
-            model_path = os.path.join(config.save_weight_path, "Epoch-%d-Loss-%f.pth"%(epoch,val_loss))
+            model_path = os.path.join(
+                config.save_weight_path, "%s Epoch-%d-Loss-%f.pth" %
+                (config.net_type,epoch, val_loss))
             net.save(model_path)
-            print(f"Saved model" ,model_path)
+            print(f"Saved model", model_path)
+
+
 
