@@ -9,13 +9,28 @@
 - [x] mobilenetv3 ssd
 - [x] retinanet
 - [x] yolov3
-- [ ] yolov4
+- [x] yolov4
 - [x] yolov5
-- [ ] efficientdet d0-d7
-
+- [x] efficientdet d0-d7
 
 ## 后续工作：
 - [ ] 添加nms优化
 - [ ] 模型量化在树莓派上运行
 - [ ] 参考mmdetection整理代码
-- [ ]  添加上面还没实现的代码
+
+## 验证模型准确率与速度
+
+
+
+
+
+
+## 模型检测效果
+
+
+
+
+
+
+
+## 参考

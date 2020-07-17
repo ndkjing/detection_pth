@@ -3,9 +3,9 @@ import argparse
 
 import torch.backends.cudnn as cudnn
 
-from models.experimental import *
-from utils.datasets import *
-from utils.utils import *
+from models.yolo.yolov5.experimental import *
+from utils.yolov5.datasets import *
+from utils.yolov5.utils import *
 
 
 def detect(save_img=False):
@@ -159,4 +159,5 @@ if __name__ == '__main__':
                 detect()
                 create_pretrained(opt.weights, opt.weights)
         else:
+            ## 直接检测
             detect()
