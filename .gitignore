@@ -2,8 +2,9 @@
 .idea/
 
 
-.weights/
-.weights/ssd
+weights/
+weights/ssd/
+weights/yolo/
 weights/efficientdet/
 *.pth
 *.pt
