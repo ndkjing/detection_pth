@@ -101,6 +101,7 @@ def check_anchor_order(m):
         m.anchor_grid[:] = m.anchor_grid.flip(0)
 
 
+## 从当前目录中找到指定文件，传递模型yaml文件名获取文件相对路径
 def check_file(file):
     # Searches for file if not found locally
     if os.path.isfile(file):

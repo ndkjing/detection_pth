@@ -222,7 +222,9 @@ if __name__ == '__main__':
     parser.add_argument('--cfg', type=str, default='yolov5s.yaml', help='model.yaml')
     parser.add_argument('--device', default='', help='cuda device, i.e. 0 or 0,1,2,3 or cpu')
     opt = parser.parse_args()
-    opt.cfg = check_file(opt.cfg)  # check file
+    ## 不使用，修改后yaml文件不在相对文件路径下
+    # opt.cfg = check_file(opt.cfg)  # check file
+    opt.cfg = 'D:\PythonProject\jing_vision\detection\pth\models\yolo\yolov5\yolov5s.yaml'
     device = torch_utils.select_device(opt.device)
 
     # Create model
