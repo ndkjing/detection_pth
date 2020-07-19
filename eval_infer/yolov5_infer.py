@@ -12,12 +12,13 @@ def detect(save_img=False):
     out, source, weights, view_img, save_txt, imgsz = \
         opt.output, opt.source, opt.weights, opt.view_img, opt.save_txt, opt.img_size
     webcam = source == '0' or source.startswith('rtsp') or source.startswith('http') or source.endswith('.txt')
-
+    print(opt.device)
     # Initialize
     device = torch_utils.select_device(opt.device)
-    if os.path.exists(out):
-        shutil.rmtree(out)  # delete output folder
-    os.makedirs(out)  # make new output folder
+
+    if not os.path.exists(out):
+        # shutil.rmtree(out)  # delete output folder
+        os.makedirs(out)  # make new output folder
     half = device.type != 'cpu'  # half precision only supported on CUDA
 
     # Load model
@@ -25,7 +26,7 @@ def detect(save_img=False):
     imgsz = check_img_size(imgsz, s=model.stride.max())  # check img_size
     if half:
         model.half()  # to FP16
-
+    print('half',half)
     # Second-stage classifier
     classify = False
     if classify:
@@ -44,15 +45,20 @@ def detect(save_img=False):
         dataset = LoadImages(source, img_size=imgsz)
 
     # Get names and colors
-    names = model.module.names if hasattr(model, 'module') else model.names
+    names = 'yolov5s.pt'
+    # names = model.module.names if hasattr(model, 'module') else model.names
     colors = [[random.randint(0, 255) for _ in range(3)] for _ in range(len(names))]
+    model = model.to(device)
 
     # Run inference
     t0 = time.time()
     img = torch.zeros((1, 3, imgsz, imgsz), device=device)  # init img
+    img = img.cuda()
     _ = model(img.half() if half else img) if device.type != 'cpu' else None  # run once
+    # _ = model(img.half() if half else img) if device.type != 'cpu' else None  # run once
     for path, img, im0s, vid_cap in dataset:
         img = torch.from_numpy(img).to(device)
+        # img = torch.from_numpy(img)
         img = img.half() if half else img.float()  # uint8 to fp16/32
         img /= 255.0  # 0 - 255 to 0.0 - 1.0
         if img.ndimension() == 3:
@@ -60,8 +66,10 @@ def detect(save_img=False):
 
         # Inference
         t1 = torch_utils.time_synchronized()
+        img = img.to(device)
+        model = model.to(device)
         pred = model(img, augment=opt.augment)[0]
-
+        print(pred.shape)
         # Apply NMS
         pred = non_max_suppression(pred, opt.conf_thres, opt.iou_thres, classes=opt.classes, agnostic=opt.agnostic_nms)
         t2 = torch_utils.time_synchronized()
@@ -77,7 +85,8 @@ def detect(save_img=False):
             else:
                 p, s, im0 = path, '', im0s
 
-            save_path = str(Path(out) / Path(p).name)
+            # save_path = str(Path(out) / Path(p).name)
+            save_path = os.path.join(os.path.split(opt.source)[0],'out'+os.path.split(opt.source)[1])
             txt_path = str(Path(out) / Path(p).stem) + ('_%g' % dataset.frame if dataset.mode == 'video' else '')
             s += '%gx%g ' % img.shape[2:]  # print string
             gn = torch.tensor(im0.shape)[[1, 0, 1, 0]]  # normalization gain whwh
@@ -113,7 +122,8 @@ def detect(save_img=False):
             # Save results (image with detections)
             if save_img:
                 if dataset.mode == 'images':
-                    cv2.imwrite(save_path, im0)
+                    # 保存图片
+                    cv2.imwrite('../images_test/img_out.jpg', im0)
                 else:
                     if vid_path != save_path:  # new video
                         vid_path = save_path
@@ -137,9 +147,9 @@ def detect(save_img=False):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--weights', nargs='+', type=str, default='yolov5s.pt', help='model.pt path(s)')
-    parser.add_argument('--source', type=str, default='inference/images', help='source')  # file/folder, 0 for webcam
-    parser.add_argument('--output', type=str, default='inference/output', help='output folder')  # output folder
+    parser.add_argument('--weights', nargs='+', type=str, default='../weights/yolo/yolov5s.pt', help='model.pt path(s)')
+    parser.add_argument('--source', type=str, default='images_test/img.png', help='source')  # file/folder, 0 for webcam
+    parser.add_argument('--output', type=str, default='images_test/output', help='output folder')  # output folder
     parser.add_argument('--img-size', type=int, default=640, help='inference size (pixels)')
     parser.add_argument('--conf-thres', type=float, default=0.4, help='object confidence threshold')
     parser.add_argument('--iou-thres', type=float, default=0.4, help='IOU threshold for NMS')
@@ -152,7 +162,9 @@ if __name__ == '__main__':
     parser.add_argument('--update', action='store_true', help='update all models')
     opt = parser.parse_args()
     print(opt)
-
+    opt.source = r'D:\PythonProject\jing_vision\detection\pth\images_test\img.png'
+    opt.weights = r'D:\download\yolov5-master\weights\yolov5s_only_weights.pt'
+    print('weight path',opt.weights)
     with torch.no_grad():
         if opt.update:  # update all models (to fix SourceChangeWarning)
             for opt.weights in ['yolov5s.pt', 'yolov5m.pt', 'yolov5l.pt', 'yolov5x.pt', 'yolov3-spp.pt']:

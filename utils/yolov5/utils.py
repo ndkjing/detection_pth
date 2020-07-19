@@ -683,7 +683,11 @@ def non_max_suppression(prediction, conf_thres=0.1, iou_thres=0.4, merge=False, 
             ## 临时将iou改为0.7
             i = hard_nms(boxes, scores, iou_thres)
         # print('i,i.shape',i,len(i))
-        i = np.array(i)
+        if isinstance(i,np.ndarray):
+            pass
+        elif isinstance(i,torch.Tensor):
+            i = i.cpu().numpy()
+            # i = np.array(i)
         print('i,i.shape', i, i.shape)
         if i.shape[0] > max_det:  # limit detections
             i = i[:max_det]

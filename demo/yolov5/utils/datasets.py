@@ -16,7 +16,7 @@ from tqdm import tqdm
 
 from utils.utils import xyxy2xywh, xywh2xyxy
 
-help_url = 'https://github.com/ultralytics/yolov5/wiki/Train-Custom-Data'
+help_url = 'https://github.com/ultralytics/yolo/wiki/Train-Custom-Data'
 img_formats = ['.bmp', '.jpg', '.jpeg', '.png', '.tif', '.dng']
 vid_formats = ['.mov', '.avi', '.mp4', '.mpg', '.mpeg', '.m4v', '.wmv', '.mkv']
 

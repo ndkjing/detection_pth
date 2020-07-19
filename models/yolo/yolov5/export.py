@@ -6,7 +6,7 @@ Usage:
 
 import argparse
 
-from models.common import *
+from models.yolo.yolov5.common import *
 from utils import google_utils
 
 if __name__ == '__main__':

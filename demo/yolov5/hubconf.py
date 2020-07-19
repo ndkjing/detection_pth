@@ -2,7 +2,7 @@
 
 Usage:
     import torch
-    model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True, channels=3, classes=80)
+    model = torch.hub.load('ultralytics/yolo', 'yolov5s', pretrained=True, channels=3, classes=80)
 """
 
 dependencies = ['torch', 'yaml']
@@ -39,13 +39,13 @@ def create(name, pretrained, channels, classes):
         return model
 
     except Exception as e:
-        help_url = 'https://github.com/ultralytics/yolov5/issues/36'
+        help_url = 'https://github.com/ultralytics/yolo/issues/36'
         s = 'Cache maybe be out of date, deleting cache and retrying may solve this. See %s for help.' % help_url
         raise Exception(s) from e
 
 
 def yolov5s(pretrained=False, channels=3, classes=80):
-    """YOLOv5-small model from https://github.com/ultralytics/yolov5
+    """YOLOv5-small model from https://github.com/ultralytics/yolo
 
     Arguments:
         pretrained (bool): load pretrained weights into the model, default=False
@@ -59,7 +59,7 @@ def yolov5s(pretrained=False, channels=3, classes=80):
 
 
 def yolov5m(pretrained=False, channels=3, classes=80):
-    """YOLOv5-medium model from https://github.com/ultralytics/yolov5
+    """YOLOv5-medium model from https://github.com/ultralytics/yolo
 
     Arguments:
         pretrained (bool): load pretrained weights into the model, default=False
@@ -73,7 +73,7 @@ def yolov5m(pretrained=False, channels=3, classes=80):
 
 
 def yolov5l(pretrained=False, channels=3, classes=80):
-    """YOLOv5-large model from https://github.com/ultralytics/yolov5
+    """YOLOv5-large model from https://github.com/ultralytics/yolo
 
     Arguments:
         pretrained (bool): load pretrained weights into the model, default=False
@@ -87,7 +87,7 @@ def yolov5l(pretrained=False, channels=3, classes=80):
 
 
 def yolov5x(pretrained=False, channels=3, classes=80):
-    """YOLOv5-xlarge model from https://github.com/ultralytics/yolov5
+    """YOLOv5-xlarge model from https://github.com/ultralytics/yolo
 
     Arguments:
         pretrained (bool): load pretrained weights into the model, default=False

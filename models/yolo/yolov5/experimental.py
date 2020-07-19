@@ -1,6 +1,6 @@
 # This file contains experimental modules
 
-from models.common import *
+from models.yolo.yolov5.common import *
 from utils import google_utils
 
 
@@ -129,9 +129,33 @@ def attempt_load(weights, map_location=None):
     # Loads an ensemble of models weights=[a,b,c] or a single model weights=[a] or weights=a
     model = Ensemble()
     for w in weights if isinstance(weights, list) else [weights]:
-        google_utils.attempt_download(w)
-        model.append(torch.load(w, map_location=map_location)['model'].float().fuse().eval())  # load FP32 model
+        # google_utils.attempt_download(w)
+        # print(torch.load(w, map_location=map_location))
+        try:
+            ## 直接加载完整模型  报错 因为保存整个模型的加载是要求目录结构不能改变
+            model.append(torch.load(w, map_location=map_location)['model'].float().fuse().eval())  # load FP32 model
+            # torch.save(model.state_dict(), 'weights/yolov5s_only_weights.pt')
+        except Exception:
+            ## 加载模型权值
+            from models.yolo.yolov5.yolo import Model
+            yaml_path = 'D:\PythonProject\jing_vision\detection\pth\models\yolo\yolov5\yolov5s.yaml'
+            model_ = Model(yaml_path)
+            ## 转换的权值中可key为"0.model.0.conv.conv.weight"   期望key为"model.0.conv.conv.weight"
+            from collections import OrderedDict
+            state_dict= torch.load(weights)
+            # new_state_dict = OrderedDict()
+            # for k, v in state_dict.items():
+            #     name = k[2:]  # remove `module.`，表面从第7个key值字符取到最后一个字符，正好去掉了module.
+            #     new_state_dict[name] = v  # 新字典的key值对应的value为一一对应的值。
+            # load params
+            # model.load_state_dict(new_state_dict)  # 从新加载这个模型
+            print([k for k, _ in model_.state_dict().items()])
+            print([k for k, _ in state_dict.items()])
 
+            model_.load_state_dict(state_dict)
+            model_.float().fuse().eval()
+            return model_
+            model.append(model_)
     if len(model) == 1:
         return model[-1]  # return model
     else:

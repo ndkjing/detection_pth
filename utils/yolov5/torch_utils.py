@@ -49,6 +49,7 @@ def select_device(device='', apex=False, batch_size=None):
     return torch.device('cuda:0' if cuda else 'cpu')
 
 
+## 正确验证检测时间方式，等待GPU执行完再计算时间
 def time_synchronized():
     torch.cuda.synchronize() if torch.cuda.is_available() else None
     return time.time()
