@@ -1,6 +1,7 @@
 # refer  https://github.com/zylo117/Yet-Another-EfficientDet-Pytorch/blob/master/train.py
 
 import os, sys
+
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath("__file__"))))
 import datetime
 import os
@@ -22,9 +23,11 @@ from layers.efficientdet_loss import FocalLoss
 from utils.sync_batchnorm import patch_replication_callback
 from utils.efficientdet.custom_utils import replace_w_sync_bn, CustomDataParallel, get_last_weights, init_weights
 from config.efficient import config
-CUDA_LAUNCH_BLOCKING=1
-os.environ['CUDA_VISIBLE_DEVICES']=config.num_gpus
+
+CUDA_LAUNCH_BLOCKING = 1
+os.environ['CUDA_VISIBLE_DEVICES'] = config.device_id
 device = torch.device('cuda:0')
+
 
 class ModelWithLoss(nn.Module):
     def __init__(self, model, debug=False):
@@ -44,15 +47,12 @@ class ModelWithLoss(nn.Module):
 
 
 def train():
-
     if config.num_gpus != None:
         config.num_gpus = len(config.num_gpus.split(','))
     if torch.cuda.is_available():
         torch.cuda.manual_seed(42)
     else:
         torch.manual_seed(42)
-
-
 
     training_params = {'batch_size': config.batch_size,
                        'shuffle': True,
@@ -67,17 +67,18 @@ def train():
                   'num_workers': config.num_workers}
 
     input_sizes = [512, 640, 768, 896, 1024, 1280, 1280, 1536]
-    training_set = CocoDataset(root_dir=os.path.join(config.data_path, config.project_name.upper()), set=config.train_set,
+    training_set = CocoDataset(root_dir=os.path.join(config.data_path, config.project_name.upper()),
+                               set=config.train_set,
                                transform=transforms.Compose([Normalizer(mean=config.mean, std=config.std),
-                                                      Augmenter(),
-                                                      Resizer(input_sizes[config.compound_coef])]))
+                                                             Augmenter(),
+                                                             Resizer(input_sizes[config.compound_coef])]))
     training_generator = DataLoader(training_set, **training_params)
 
     val_set = CocoDataset(root_dir=os.path.join(config.data_path, config.project_name.upper()), set=config.val_set,
                           transform=transforms.Compose([Normalizer(mean=config.mean, std=config.std),
-                                                 Resizer(input_sizes[config.compound_coef])]))
+                                                        Resizer(input_sizes[config.compound_coef])]))
     val_generator = DataLoader(val_set, **val_params)
-
+    ## 构建模型
     model = EfficientDetBackbone(num_classes=len(config.obj_list), compound_coef=config.compound_coef,
                                  ratios=eval(config.anchors_ratios), scales=eval(config.anchors_scales))
 

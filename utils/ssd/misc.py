@@ -6,6 +6,7 @@ def str2bool(s):
     return s.lower() in ('true', '1')
 
 
+## 计时器类 有点问题没有torch.sync XX time  会忽略gpu 时间只是考虑CPU时间
 class Timer:
     def __init__(self):
         self.clock = {}

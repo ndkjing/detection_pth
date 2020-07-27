@@ -2,8 +2,8 @@
 import argparse
 import json
 
-from models.experimental import *
-from utils.datasets import *
+from models.yolo.yolov5.experimental import *
+from utils.yolov5.datasets import *
 
 
 def test(data,

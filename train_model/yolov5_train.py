@@ -9,11 +9,11 @@ import torch.optim.lr_scheduler as lr_scheduler
 import torch.utils.data
 from torch.utils.tensorboard import SummaryWriter
 
-import test  # import test.py to get mAP after each epoch
-from models.yolo import Model
+import eval_infer.yolov5_eval as test  # import test.py to get mAP after each epoch
+from models.yolo.yolov5.yolo import Model
 from utils import google_utils
-from utils.datasets import *
-from utils.utils import *
+from utils.yolov5.datasets import *
+from utils.yolov5.utils import *
 
 mixed_precision = True
 try:  # Mixed precision training https://github.com/NVIDIA/apex
@@ -114,34 +114,43 @@ def train(hyp):
     # plot_lr_scheduler(optimizer, scheduler, epochs, save_dir=log_dir)
 
     # Load Model
-    google_utils.attempt_download(weights)
+    ##  下载权重 TODO 修改为指定路径不下载
+    if not os.path.exists(weights):
+        google_utils.attempt_download(weights)
     start_epoch, best_fitness = 0, 0.0
     if weights.endswith('.pt'):  # pytorch format
+        ## 修改了目录结构后改为只加载全红
         ckpt = torch.load(weights, map_location=device)  # load checkpoint
-
-        # load model
+        model_keys = model.state_dict().keys()
+        ckpy_keys = ckpt.keys()
+        print('加载权重层数{},为能加载名称{}'.format(len(list(set(model_keys).union(set(ckpy_keys)))),list(set(model_keys).difference(set(ckpy_keys)))))
         try:
-            ckpt['model'] = {k: v for k, v in ckpt['model'].float().state_dict().items()
-                             if model.state_dict()[k].shape == v.shape}  # to FP32, filter
-            model.load_state_dict(ckpt['model'], strict=False)
-        except KeyError as e:
-            s = "%s is not compatible with %s. This may be due to model differences or %s may be out of date. " \
-                "Please delete or update %s and try again, or use --weights '' to train from scratch." \
-                % (opt.weights, opt.cfg, opt.weights, opt.weights)
-            raise KeyError(s) from e
-
-        # load optimizer
-        if ckpt['optimizer'] is not None:
-            optimizer.load_state_dict(ckpt['optimizer'])
-            best_fitness = ckpt['best_fitness']
-
-        # load results
-        if ckpt.get('training_results') is not None:
-            with open(results_file, 'w') as file:
-                file.write(ckpt['training_results'])  # write results.txt
+            model.load_state_dict(ckpt, strict=False)
+        except:
+            print('加载权重失败采用逐层加载')
+            ## TODO 逐层加载
+        # 原版加载权重
+        # try:
+        #     ckpt['model'] = {k: v for k, v in ckpt['model'].float().state_dict().items()
+        #                      if model.state_dict()[k].shape == v.shape}  # to FP32, filter
+        #     model.load_state_dict(ckpt['model'], strict=False)
+        # except KeyError as e:
+        #     s = "%s is not compatible with %s. This may be due to model differences or %s may be out of date. " \
+        #         "Please delete or update %s and try again, or use --weights '' to train from scratch." \
+        #         % (opt.weights, opt.cfg, opt.weights, opt.weights)
+        #     raise KeyError(s) from e
+        # # load optimizer
+        # if ckpt['optimizer'] is not None:
+        #     optimizer.load_state_dict(ckpt['optimizer'])
+        #     best_fitness = ckpt['best_fitness']
+        #
+        # # load results
+        # if ckpt.get('training_results') is not None:
+        #     with open(results_file, 'w') as file:
+        #         file.write(ckpt['training_results'])  # write results.txt
 
         # epochs
-        start_epoch = ckpt['epoch'] + 1
+        # start_epoch = ckpt['epoch'] + 1
         if epochs < start_epoch:
             print('%s has been trained for %g epochs. Fine-tuning for %g additional epochs.' %
                   (opt.weights, ckpt['epoch'], epochs))
@@ -381,9 +390,15 @@ if __name__ == '__main__':
     parser.add_argument('--name', default='', help='renames results.txt to results_name.txt if supplied')
     parser.add_argument('--device', default='', help='cuda device, i.e. 0 or 0,1,2,3 or cpu')
     parser.add_argument('--multi-scale', action='store_true', help='vary img-size +/- 50%%')
-    parser.add_argument('--single-cls', action='store_true', help='train as single-class dataset')
+    parser.add_argument('--single-cls', action='store_true', help='train as single-class dataset')  #只有一类
     opt = parser.parse_args()
-
+    ## 暂时指定绝对路径
+    opt.data = '../datasets/yolo/yolov5/arm.yaml'
+    ## 原始库中使用加载完整模型，不能改变文件结构，需要修改为只加载权重，
+    ## 目前在infer实现加载权重现在修改到train中
+    opt.weights = '../weights/yolo/yolov5s_only_weights.pt'
+    opt.cfg = '../models/yolo/yolov5/yolov5s.yaml'
+    # opt.resume = False
     last = get_latest_run() if opt.resume == 'get_last' else opt.resume  # resume from most recent run
     if last and not opt.weights:
         print(f'Resuming training from {last}')

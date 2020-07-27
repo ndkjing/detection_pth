@@ -132,7 +132,9 @@ def attempt_load(weights, map_location=None):
         # google_utils.attempt_download(w)
         # print(torch.load(w, map_location=map_location))
         try:
-            ## 直接加载完整模型  报错 因为保存整个模型的加载是要求目录结构不能改变
+            ## 直接加载完整模型
+            ## 在使用官方预训练模型报错 因为保存整个模型的加载是要求目录结构不能改变
+            ## 使用自己训练模型正确 因为自己的文件目录结构和保存模型时是相同的
             model.append(torch.load(w, map_location=map_location)['model'].float().fuse().eval())  # load FP32 model
             # torch.save(model.state_dict(), 'weights/yolov5s_only_weights.pt')
         except Exception:

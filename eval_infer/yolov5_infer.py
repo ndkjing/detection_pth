@@ -45,7 +45,8 @@ def detect(save_img=False):
         dataset = LoadImages(source, img_size=imgsz)
 
     # Get names and colors
-    names = 'yolov5s.pt'
+    ## 无法获取类型名称改为手动赋值
+    names = ['car','arm_end','lighter']
     # names = model.module.names if hasattr(model, 'module') else model.names
     colors = [[random.randint(0, 255) for _ in range(3)] for _ in range(len(names))]
     model = model.to(device)
@@ -162,8 +163,8 @@ if __name__ == '__main__':
     parser.add_argument('--update', action='store_true', help='update all models')
     opt = parser.parse_args()
     print(opt)
-    opt.source = r'D:\PythonProject\jing_vision\detection\pth\images_test\img.png'
-    opt.weights = r'D:\download\yolov5-master\weights\yolov5s_only_weights.pt'
+    opt.source = r'/Data/jing/arm/images/val/aa86220c12d32594cae498ab57d21b57_00033.jpg'
+    opt.weights = r'/home/create/jing/jing_vision/detection/pth/pth/train_model/runs/exp12/weights/best.pt'
     print('weight path',opt.weights)
     with torch.no_grad():
         if opt.update:  # update all models (to fix SourceChangeWarning)

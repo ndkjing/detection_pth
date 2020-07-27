@@ -96,7 +96,7 @@ def prune(model, amount=0.3):
             prune.remove(m, 'weight')  # make permanent
     print(' %.3g global sparsity' % sparsity(model))
 
-
+## 将卷积层和bn层合并成卷积
 def fuse_conv_and_bn(conv, bn):
     # https://tehnokv.com/posts/fusing-batchnorm-and-conv/
     with torch.no_grad():

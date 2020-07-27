@@ -1,4 +1,4 @@
-from transforms.transforms import *
+from augment.transforms import *
 
 # 数据增强
 class TrainAugmentation:

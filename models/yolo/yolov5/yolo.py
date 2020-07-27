@@ -182,6 +182,7 @@ def parse_model(d, ch):  # model_dict, input_channels(3)
             #     e = math.log(c2 / ch[1]) / math.log(2)
             #     c2 = int(ch[1] * ex ** e)
             # if m != Focus:
+            ## 向8取整
             c2 = make_divisible(c2 * gw, 8) if c2 != no else c2
 
             # Experimental

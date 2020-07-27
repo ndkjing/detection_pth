@@ -16,6 +16,8 @@ if __name__ == '__main__':
     parser.add_argument('--batch-size', type=int, default=1, help='batch size')
     opt = parser.parse_args()
     opt.img_size *= 2 if len(opt.img_size) == 1 else 1  # expand
+    opt.weights = r'/home/create/jing/jing_vision/detection/pth/pth/train_model/runs/exp12/weights/best.pt'
+    opt.weights = r'/home/create/jing/jing_vision/detection/pth/pth/train_model/runs/exp15/weights/best.pt'
     print(opt)
 
     # Input
@@ -39,22 +41,27 @@ if __name__ == '__main__':
         print('TorchScript export failure: %s' % e)
 
     # ONNX export
-    try:
-        import onnx
+    import onnx
 
-        print('\nStarting ONNX export with onnx %s...' % onnx.__version__)
-        f = opt.weights.replace('.pt', '.onnx')  # filename
-        model.fuse()  # only for ONNX
-        torch.onnx.export(model, img, f, verbose=False, opset_version=12, input_names=['images'],
-                          output_names=['classes', 'boxes'] if y is None else ['output'])
+    print('\nStarting ONNX export with onnx %s...' % onnx.__version__)
+    f = opt.weights.replace('.pt', '.onnx')  # filename
+    model.fuse()  # only for ONNX
+    ## 测试不指定spset_version
+    # print(model.state_dict)
+    for key in model.state_dict().keys():
+        if isinstance(model.state_dict()[key],torch.int64):
+            print(key,model.state_dict()[key])
+    torch.onnx.export(model, img, f, verbose=False, input_names=['images'],opset_version=11,
+                      output_names=['classes', 'boxes'] if y is None else ['output'])
+    ## 指定spset_version  报错
+    torch.onnx.export(model, img, f, verbose=False, opset_version=12, input_names=['images'],
+                      output_names=['classes', 'boxes'] if y is None else ['output'])
+    # Checks
+    onnx_model = onnx.load(f)  # load onnx model
+    onnx.checker.check_model(onnx_model)  # check onnx model
+    print(onnx.helper.printable_graph(onnx_model.graph))  # print a human readable model
+    print('ONNX export success, saved as %s' % f)
 
-        # Checks
-        onnx_model = onnx.load(f)  # load onnx model
-        onnx.checker.check_model(onnx_model)  # check onnx model
-        print(onnx.helper.printable_graph(onnx_model.graph))  # print a human readable model
-        print('ONNX export success, saved as %s' % f)
-    except Exception as e:
-        print('ONNX export failure: %s' % e)
 
     # CoreML export
     try:

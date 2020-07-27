@@ -1,0 +1,21 @@
+# COCO 2017 dataset http://cocodataset.org - first 128 training images
+# Download command:  python -c "from yolo.utils.google_utils import *; gdrive_download('1n_oKgR81BJtqk75b00eAjdv03qVCQn2f', 'coco128.zip')"
+# Train command: python train.py --data coco128.yaml
+# Default dataset location is next to /yolo:
+#   /parent_folder
+#     /coco128
+#     /yolo
+
+
+# train and val data as 1) directory: path/images/, 2) file: path/images.txt, or 3) list: [path1/images/, path2/images/]
+#train: ../coco128/images/train2017/  # 128 images
+#val: ../coco128/images/train2017/  # 128 images
+
+## 本地绝对路径
+train: /Data/jing/arm/images/train/
+val: /Data/jing/arm/images/val/
+# number of classes
+nc: 3
+
+# class names
+names: ['car','arm_end','lighter']

@@ -1,5 +1,15 @@
 # refer:   https://github.com/qfgaohao/pytorch-ssd
 
+import os
+import sys
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath("__file__"))))
+import itertools
+
+import torch
+from torch.optim.lr_scheduler import CosineAnnealingLR, MultiStepLR
+from torch.utils.data import DataLoader, ConcatDataset
+
 from layers.multibox_loss import MultiboxLoss
 from datasets.ssd.egohands_dataset import EGODataset
 from datasets.ssd.open_images import OpenImagesDataset
@@ -13,19 +23,9 @@ from models.ssd.mobilenetv1_ssd_lite import create_mobilenetv1_ssd_lite
 from models.ssd.mobilenetv1_ssd import create_mobilenetv1_ssd
 from models.ssd.vgg_ssd import create_vgg_ssd
 from models.ssd.ssd import MatchPrior
-
 from utils.ssd.misc import Timer, freeze_net_layers, store_labels
-from torch.optim.lr_scheduler import CosineAnnealingLR, MultiStepLR
-from torch.utils.data import DataLoader, ConcatDataset
-import torch
-import itertools
-import sys
-import os
-import os
-import sys
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath("__file__"))))
 
-
+## 配置模型和device
 DEVICE = torch.device(
     "cuda:%d" %
     config.device_id if torch.cuda.is_available() and config.use_cuda else "cpu")
@@ -104,7 +104,7 @@ def eval_model(loader, net, criterion, device):
         running_regression_loss += regression_loss.item()
         running_classification_loss += classification_loss.item()
     return running_loss / num, running_regression_loss / \
-        num, running_classification_loss / num
+           num, running_classification_loss / num
 
 
 if __name__ == '__main__':
@@ -120,8 +120,9 @@ if __name__ == '__main__':
     elif config.net_type == 'sq_ssd_lite':
         create_net = create_squeezenet_ssd_lite
     elif config.net_type == 'mb2_ssd_lite':
-        def create_net(num): return create_mobilenetv2_ssd_lite(
-            num, width_mult=config.mb2_width_mult, device_id=config.device_id)
+        def create_net(num):
+            return create_mobilenetv2_ssd_lite(
+                num, width_mult=config.mb2_width_mult, device_id=config.device_id)
     elif config.net_type == 'mb3_ssd_lite':  # mobilenet_v3还有点问题
         # create_net = lambda num: create_mobilenetv3_ssd_lite(num,device_id=config.device_id)
         create_net = create_mobilenetv3_ssd_lite
@@ -290,7 +291,6 @@ if __name__ == '__main__':
         f"Learning rate: {config.lr}, Base net learning rate: {base_net_lr}, " +
         f"Extra Layers learning rate: {extra_layers_lr}.")
 
-
     ### 设置学习方式
     if config.scheduler == 'multi-step':
         print("Uses MultiStepLR scheduler.")
@@ -322,9 +322,6 @@ if __name__ == '__main__':
             )
             model_path = os.path.join(
                 config.save_weight_path, "%s Epoch-%d-Loss-%f.pth" %
-                (config.net_type,epoch, val_loss))
+                                         (config.net_type, epoch, val_loss))
             net.save(model_path)
             print(f"Saved model", model_path)
-
-
-
